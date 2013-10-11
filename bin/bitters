@@ -1,0 +1,3 @@
+#!/bin/bash
+cd /var/www/bitters
+forever start app.js
