@@ -1,0 +1,28 @@
+#!/bin/bash
+# Shell script to clean web server cache stored at /var/www/cache/ directory. 
+# -------------------------------------------------------------------------
+# Copyright (c) 2007 nixCraft project <http://cyberciti.biz/fb/>
+# This script is licensed under GNU GPL version 2.0 or above
+# -------------------------------------------------------------------------
+# This script is part of nixCraft shell script collection (NSSC)
+# Visit http://bash.cyberciti.biz/ for more information.
+# -------------------------------------------------------------------------
+ 
+# Cache dir path
+CROOT="/var/cache/lighttpd/compress/"
+ 
+#Deleting files older than 10 days
+DAYS=10
+ 
+# Lighttpd user and group
+LUSER="www-data"
+LGROUP="www-data"
+ 
+# start cleaning 
+find ${CROOT} -type f -mtime +${DAYS} | xargs -r /bin/rm
+ 
+# if directory missing just recreate it
+if [ ! -d $CROOT ]
+then 
+	mkdir -p $CROOT
+	chown ${LUSER}:${LGROUP} ${CROOT}
