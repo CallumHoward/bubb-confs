@@ -1,0 +1,42 @@
+#! /bin/sh
+# /etc/init.d/heimcontr
+
+### BEGIN INIT INFO
+# Provides:          heimcontr
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Simple script to start a program at boot
+# Description:       A simple script from www.stuffaboutcode.com which will start / stop a program a boot / shutdown.
+### END INIT INFO
+
+# If you want a command to always run, put it here
+
+# Carry out specific functions when asked to by the system
+case "$1" in
+  start)
+    echo "Starting heimcontrol.js\n"
+    /usr/bin/heim
+    echo "Home Automation Server started"
+    ;;
+  stop)
+    echo "Stopping heimcontrol.js\n"
+    /usr/local/bin/forever stopall
+    echo "Stopped"
+    ;;
+  restart)
+    echo -n "Restarting heimcontrol.js\n"
+    /usr/bin/heim-restart
+    ;;
+  status)
+    echo -n "heimcontrol.js Status\n"
+    /usr/local/bin/forever list
+    ;;
+  *)
+    echo "Usage: /etc/init.d/heim {start|stop|restart|status}"
+    exit 1
+    ;;
+esac
+
+exit 0
