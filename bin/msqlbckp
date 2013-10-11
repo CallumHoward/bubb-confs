@@ -1,0 +1,1 @@
+sudo mysqldump -u root -plordzik1123 wpressbb > /mnt/Samba/.mysql_back/wpressbb_$(date +%Y%m%d).sql
