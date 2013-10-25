@@ -26,6 +26,11 @@ set header_cache =~/.mutt/cache/headers
 set message_cachedir =~/.mutt/cache/bodies
 set certificate_file =~/.mutt/certificates
 
+# Goobook https://pypi.python.org/pypi/goobook/
+set query_command="goobook query '%s'"
+macro index,pager a "<pipe-message>goobook add<return>" "add sender to google contacts"
+bind editor <Tab> complete-query
+
 set nomove  #Stop asking to "move read messages to mbox"!
 set edit_hdrs #See headers when editing mail
 set include=yes #Quote mail in reply
