@@ -5,6 +5,12 @@ set imap_user = "some.guy@gmail.com"
 set imap_pass = "some.guy's.password"
 set smtp_url = "smtp://bartlomiej.bania@smtp.gmail.com:587/"
 set smtp_pass = "some.guy's.password"
+set imap_keepalive = 900
+# How often should mutt check for new mail?
+set mail_check=60
+# Notify me of new mail in my mailbox this often
+set timeout=15
+set imap_check_subscribed
 
 #folders
 set folder = "imaps://imap.gmail.com:993"
@@ -18,35 +24,44 @@ set header_cache =~/.mutt/cache/headers
 set message_cachedir =~/.mutt/cache/bodies
 set certificate_file =~/.mutt/certificates
 
-#misc
-set move = no  #Stop asking to "move read messages to mbox"!
-set imap_keepalive = 900
-set sort = 'threads'
+set move=yes  #Stop asking to "move read messages to mbox"!
+set edit_hdrs #See headers when editing mail
+set include=yes #Quote mail in reply
+set reply_to #Use adress from reply-to header when replying
+set fast_reply #Do not ask for to, sbuject,.. when replying
+set auto_tag #If something is tagged run commands on all tagged msgs
+set delete_untag #Untag msgs when marking them for deletion
+set mark_old=yes #Differentiate between new and old
+set editor="nano" #Default editor
+set print=ask-yes #Ask if print
+set sort = 'date-received' #Sorting
 set sort_aux = 'last-date-received'
 
-# How often should mutt check for new mail?
-set mail_check=60
-# Notify me of new mail in my mailbox this often
-set timeout=15
-set imap_check_subscribed
+#Aliases
+set reverse_alias #If alias exists, use it
+set alias_file="~/.muttalias"
 
-set edit_hdrs # see headers when editing mail
-set include # quote msg when replying
-set reply_to # use adress from reply-to header when replying
-set fast_reply # do not ask for to, sbuject,.. when replying
-set auto_tag # if something is tagged run commands on all tagged msgs
-set delete_untag # untag msgs when marking them for deletion
-set mark_old = no # don't differentiate between new and old
-
+#View
 set forward_format="Fwd: %s"
-
+set tilde # pad bottom blank lines when in page view
+set pager_index_lines=9 # 9 index mail lines on top when in page view
 # In what order should the header fields be presented?
 hdr_order From: Date: To: Cc: Reply-To: Subject:
 ignore *
 unignore From: Date: To: Cc: Reply-To: Subject:
 
-set tilde # pad bottom blank lines when in page view
-set pager_index_lines=9 # 9 index mail lines on top when in page view
+#Dealing with HTML
+set implicit_autoview
+auto_view text/html  application/x-pgp-message
+set mailcap_path="~/.mailcap"
+
+#Attachments
+application/pdf; evince %s
+image/jpeg; eog %s 
+image/gif; eog %s &
+image/GIF; eog %s &
+image/JPG; eog %s &
+image/jpg; eog %s &
 
 #macros
 bind editor <space> noop
