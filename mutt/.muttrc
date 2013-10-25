@@ -10,48 +10,88 @@ set imap_pass = "some.guy's.password"
 set smtp_url = "smtp://some.guy@smtp.gmail.com:587/"
 set smtp_pass = "some.guy's.password"
 set imap_keepalive = 900
-# How often should mutt check for new mail?
+
+# How often should mutt check for new mail? ----
 set mail_check=60
-# Notify me of new mail in my mailbox this often
+
+# Notify me of new mail this often -------------
 set timeout=15
 set imap_check_subscribed
 
-#folders
+# GMail Folders --------------------------------
 set folder = "imaps://imap.gmail.com:993"
 set spoolfile = "+INBOX"
 set postponed = "+Drafts"
 set record = "+Sent Mail"
 set trash = "+Trash"
 
-#local
+# Local Folders --------------------------------
 set header_cache =~/.mutt/cache/headers
 set message_cachedir =~/.mutt/cache/bodies
 set certificate_file =~/.mutt/certificates
 
-set nomove  #Stop asking to "move read messages to mbox"!
-set edit_hdrs #See headers when editing mail
-set include=yes #Quote mail in reply
-set reply_to #Use adress from reply-to header when replying
-set fast_reply #Do not ask for to, sbuject,.. when replying
-set auto_tag #If something is tagged run commands on all tagged msgs
-set delete_untag #Untag msgs when marking them for deletion
-unset mark_old #don't mark messages as old when I pass over them with the cursor
-set editor="nano" #Default editor
-set sort=threads #Sorting
+# Various settings
+# Stop asking to "move read messages to mbox"! -
+set nomove
+
+# See headers while editing mail ---------------
+set edit_hdrs
+
+# Quote mail in reply --------------------------
+set include=yes
+
+# Use adress from reply-to header when replying -
+set reply_to
+
+# Don't ask, just reply! ------------------------
+set fast_reply
+
+# If something is tagged run commands on all tagged msgs
+set auto_tag
+
+# Untag msgs when marking them for deletion ------
+set delete_untag
+
+# Don't mark messages as old when I pass over them with the cursor
+unset mark_old 
+
+# Default editor ---------------------------------
+set editor="nano" 
+
+# Index View Options -----------------------------
+set date_format = "%m/%d"
+set index_format = "[%Z]  %D  %-20.20F  %s"
+set sort=threads # As in GMail
 set strict_threads="yes"
 set sort_browser="date"
-set sort_aux ="last-date-received"
+set sort_aux ="reverse-last-date-received" # As in GMail
 unset collapse_unread
-set fcc_attach #forward attachments
-unset reply_self #don't include myself when replying to a group
-unset beep #don't need no beeping 
+set sort_re
+set reply_regexp = "^(([Rr][Ee]?(\[[0-9]+\])?: *)?(\[[^]]+\] *)?)*"
 
+# Forward attachments -----------------------------
+set fcc_attach
+
+# Don't include myself when replying to a group ---
+unset reply_self
+
+# Don't need no beeping ---------------------------
+unset beep
+
+# shut up, mutt -----------------------------------
+set wait_key=no
+set delete
+unset confirmappend
+set quit
+
+# Printing actions --------------------------------
 set print=ask-yes #Ask if print
 set print_command="mutt-print %s" #Send your message to the line printer.
 
+# Spell Checking ----------------------------------
 set ispell="aspell -e -c"
 
-#View
+# View Options ------------------------------------
 push <show-version> #get Mutt to show its version on startup
 set forward_format="Fwd: %s"
 set indent_str="> "
@@ -63,33 +103,43 @@ alternative_order text/enriched text/plain text/html #In which order to show the
 unset resolve
 folder-hook . 'macro pager d "<exit><delete-message>" "Delete the message"'
 
-#Header order
+# Headers Order ------------------------------------
 ignore *
-hdr_order From: Date: To: Cc: Reply-To: Subject:
 unignore From: Date: To: Cc: Reply-To: Subject:
+unhdr_order *
+hdr_order From: Date: To: Cc: Reply-To: Subject:
 
-#Dealing with URLs
+# Dealing with URLs --------------------------------
 macro index \cb |urlview\n 'call urlview to extract URLs out of a message'
 
-#Dealing with attachments
-set mailcap_path="~/.mailcap"
+# Dealing with attachments -------------------------
+set mailcap_path="~/.mutt/mailcap"
 set implicit_autoview
 auto_view text/html application/x-pgp-message image/* application/pdf application/msword
 
-#Bindings and Macros
+# Goobook https://pypi.python.org/pypi/goobook/ -----
+set query_command="goobook query '%s'"
+macro index,pager a "<pipe-message>goobook add<return>" "add sender to google contacts"
+bind editor <Tab> complete-query
+
+# Bindings and Macros -------------------------------
 bind editor <space> noop
 bind pager <up> previous-line
 bind pager <down> next-line
 bind pager [ previous-unread
 bind pager ] next-unread
+bind index,pager <down>   sidebar-next
+bind index,pager <up>     sidebar-prev
+bind index,pager <right>  sidebar-open
 bind index - collapse-thread
 bind index _ collapse-all
+macro index \Cr "T~U<enter><tag-prefix><clear-flag>N<untag-pattern>.<enter>" "mark all messages as read" # Ctrl-R to mark all as read
 macro index gi "<change-folder>=INBOX<enter>" "Go to inbox"
 macro index ga "<change-folder>=[Google Mail]/All Mail<enter>" "Go to all mail"
 macro index gd "<change-folder>=[Google Mail]/Drafts<enter>" "Go to Drafts"
 macro index gt "<change-folder> =[Google Mail]/Trash<enter>" "Go to Trash"
 
-# color WHERE FOREGROUND BACKGROUND REGEXP
+# Color WHERE FOREGROUND BACKGROUND REGEXP ---------
 color normal	white black
 color attachment brightyellow black
 color hdrdefault cyan black
@@ -119,26 +169,21 @@ color body	brightred black [\-\.+_a-zA-Z0-9]+@[\-\.a-zA-Z0-9]+ # identifies emai
 
 color body	brightblue black (https?|ftp)://[\-\.,/%~_:?&=\#a-zA-Z0-9]+ # identifies URLs
 
-# Color definitions when on a mono screen
+# Color definitions when on a mono screen -------------
 mono bold      bold
 mono underline underline
 mono indicator reverse
 mono error     bold
 
-## SIDEBAR ##
+## SIDEBAR ## -----------------------------------------
 # set up the sidebar, default not visible
-set sidebar_width=20
+set sidebar_width=24
 set sidebar_visible=yes
-set sidebar_delim="|"
+set sidebar_delim=" |"
 set sidebar_sort=yes
 
-# which mailboxes to list in the sidebar
-mailboxes =inbox
-
-# Goobook https://pypi.python.org/pypi/goobook/
-set query_command="goobook query '%s'"
-macro index,pager a "<pipe-message>goobook add<return>" "add sender to google contacts"
-bind editor <Tab> complete-query
+set status_chars  = " *%A"
+set status_format = "───[ Folder: %f ]───[%r%m messages%?n? (%n new)?%?d? (%d to delete)?%?t? (%t tagged)? ]───%>─%?p?( %p postponed )?───"
 
 # color of folders with new mail
 color sidebar_new yellow default
