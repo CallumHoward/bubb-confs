@@ -1,14 +1,14 @@
 #default mailbox format (could be maildir, mbox or several others)
-set mailbox_type=maildir
+#set mailbox_type=maildir
 
-unset beep #don't need no beeping 
+unset beep #don't need no beeping aye
 
 #creds
 set from = "some.guy@gmail.com"
 set realname = "Some Guy"
 set imap_user = "some.guy@gmail.com"
 set imap_pass = "some.guy's.password"
-set smtp_url = "smtp://bartlomiej.bania@smtp.gmail.com:587/"
+set smtp_url = "smtp://some.guy@smtp.gmail.com:587/"
 set smtp_pass = "some.guy's.password"
 set imap_keepalive = 900
 # How often should mutt check for new mail?
