@@ -1,3 +1,8 @@
+#default mailbox format (could be maildir, mbox or several others)
+set mailbox_type=maildir
+
+unset beep #don't need no beeping 
+
 #creds
 set from = "some.guy@gmail.com"
 set realname = "Some Guy"
@@ -24,25 +29,31 @@ set header_cache =~/.mutt/cache/headers
 set message_cachedir =~/.mutt/cache/bodies
 set certificate_file =~/.mutt/certificates
 
-set move=yes  #Stop asking to "move read messages to mbox"!
+set nomove  #Stop asking to "move read messages to mbox"!
 set edit_hdrs #See headers when editing mail
 set include=yes #Quote mail in reply
 set reply_to #Use adress from reply-to header when replying
 set fast_reply #Do not ask for to, sbuject,.. when replying
 set auto_tag #If something is tagged run commands on all tagged msgs
 set delete_untag #Untag msgs when marking them for deletion
-set mark_old=yes #Differentiate between new and old
+unset mark_old #don't mark messages as old when I pass over them with the cursor
 set editor="nano" #Default editor
-set print=ask-yes #Ask if print
 set sort = 'date-received' #Sorting
 set sort_aux = 'last-date-received'
+set fcc_attach #forward attachments
+unset reply_self #don't include myself when replying to a group
+
+set print=ask-yes #Ask if print
+set print_command="mutt-print %s" #Send your message to the line printer.
 
 #Aliases
 set reverse_alias #If alias exists, use it
 set alias_file="~/.muttalias"
 
 #View
+push <show-version> #get Mutt to show its version on startup
 set forward_format="Fwd: %s"
+set indent_str="> "
 set tilde # pad bottom blank lines when in page view
 set pager_index_lines=9 # 9 index mail lines on top when in page view
 # In what order should the header fields be presented?
@@ -50,18 +61,13 @@ hdr_order From: Date: To: Cc: Reply-To: Subject:
 ignore *
 unignore From: Date: To: Cc: Reply-To: Subject:
 
-#Dealing with HTML
-set implicit_autoview
-auto_view text/html  application/x-pgp-message
-set mailcap_path="~/.mailcap"
+#Dealing with URLs
+macro index \cb |urlview\n 'call urlview to extract URLs out of a message' #[Ctrl]-B opens url in lynx
 
-#Attachments
-application/pdf; evince %s
-image/jpeg; eog %s 
-image/gif; eog %s &
-image/GIF; eog %s &
-image/JPG; eog %s &
-image/jpg; eog %s &
+#Dealing with attachments
+set mailcap_path="~/.mailcap"
+set implicit_autoview
+auto_view text/html application/x-pgp-message image/* application/pdf application/msword
 
 #macros
 bind editor <space> noop
