@@ -1,0 +1,160 @@
+#Aliases
+set reverse_alias #If alias exists, use it
+set alias_file="~/.muttalias"
+
+#creds
+set from = "some.guy@gmail.com"
+set realname = "Some Guy"
+set imap_user = "some.guy@gmail.com"
+set imap_pass = "some.guy's.password"
+set smtp_url = "smtp://some.guy@smtp.gmail.com:587/"
+set smtp_pass = "some.guy's.password"
+set imap_keepalive = 900
+# How often should mutt check for new mail?
+set mail_check=60
+# Notify me of new mail in my mailbox this often
+set timeout=15
+set imap_check_subscribed
+
+#folders
+set folder = "imaps://imap.gmail.com:993"
+set spoolfile = "+INBOX"
+set postponed = "+Drafts"
+set record = "+Sent Mail"
+set trash = "+Trash"
+
+#local
+set header_cache =~/.mutt/cache/headers
+set message_cachedir =~/.mutt/cache/bodies
+set certificate_file =~/.mutt/certificates
+
+set nomove  #Stop asking to "move read messages to mbox"!
+set edit_hdrs #See headers when editing mail
+set include=yes #Quote mail in reply
+set reply_to #Use adress from reply-to header when replying
+set fast_reply #Do not ask for to, sbuject,.. when replying
+set auto_tag #If something is tagged run commands on all tagged msgs
+set delete_untag #Untag msgs when marking them for deletion
+unset mark_old #don't mark messages as old when I pass over them with the cursor
+set editor="nano" #Default editor
+set sort=threads #Sorting
+set strict_threads="yes"
+set sort_browser="date"
+set sort_aux ="last-date-received"
+unset collapse_unread
+set fcc_attach #forward attachments
+unset reply_self #don't include myself when replying to a group
+unset beep #don't need no beeping 
+
+set print=ask-yes #Ask if print
+set print_command="mutt-print %s" #Send your message to the line printer.
+
+set ispell="aspell -e -c"
+
+#View
+push <show-version> #get Mutt to show its version on startup
+set forward_format="Fwd: %s"
+set indent_str="> "
+set tilde # pad bottom blank lines when in page view
+set pager_index_lines=4 #Show 2 messages on either side of the message I'm reading.
+set pager_context=5 #Paging down a message leaves 5 lines of overlap, so you don't get lost.
+set arrow_cursor #Changes the `bar' cursor to an arrow.  Default is the bar.
+alternative_order text/enriched text/plain text/html #In which order to show the body parts (I leave HTML for last)
+unset resolve
+folder-hook . 'macro pager d "<exit><delete-message>" "Delete the message"'
+
+#Header order
+ignore *
+hdr_order From: Date: To: Cc: Reply-To: Subject:
+unignore From: Date: To: Cc: Reply-To: Subject:
+
+#Dealing with URLs
+macro index \cb |urlview\n 'call urlview to extract URLs out of a message'
+
+#Dealing with attachments
+set mailcap_path="~/.mailcap"
+set implicit_autoview
+auto_view text/html application/x-pgp-message image/* application/pdf application/msword
+
+#Bindings and Macros
+bind editor <space> noop
+bind pager <up> previous-line
+bind pager <down> next-line
+bind pager [ previous-unread
+bind pager ] next-unread
+bind index - collapse-thread
+bind index _ collapse-all
+macro index gi "<change-folder>=INBOX<enter>" "Go to inbox"
+macro index ga "<change-folder>=[Google Mail]/All Mail<enter>" "Go to all mail"
+macro index gd "<change-folder>=[Google Mail]/Drafts<enter>" "Go to Drafts"
+macro index gt "<change-folder> =[Google Mail]/Trash<enter>" "Go to Trash"
+
+# color WHERE FOREGROUND BACKGROUND REGEXP
+color normal	white black
+color attachment brightyellow black
+color hdrdefault cyan black
+color indicator black cyan
+color markers	brightred black
+color quoted	green black
+color signature cyan black
+color status	brightgreen blue
+color tilde	blue black
+color tree	red black
+
+color index green default ~p # i am to/cc
+color index cyan default ~P # from me
+color index yellow default ~N # new
+color index yellow default ~O # new
+color index magenta default ~F # flagged
+color index blue default ~T # tagged
+color index red default ~D # deleted
+
+color header	brightgreen black ^From:
+color header	brightcyan black ^To:
+color header	brightcyan black ^Reply-To:
+color header	brightcyan black ^Cc:
+color header	brightblue black ^Subject:
+
+color body	brightred black [\-\.+_a-zA-Z0-9]+@[\-\.a-zA-Z0-9]+ # identifies email addresses
+
+color body	brightblue black (https?|ftp)://[\-\.,/%~_:?&=\#a-zA-Z0-9]+ # identifies URLs
+
+# Color definitions when on a mono screen
+mono bold      bold
+mono underline underline
+mono indicator reverse
+mono error     bold
+
+## SIDEBAR ##
+# set up the sidebar, default not visible
+set sidebar_width=20
+set sidebar_visible=yes
+set sidebar_delim="|"
+set sidebar_sort=yes
+
+# which mailboxes to list in the sidebar
+mailboxes =inbox
+
+# Goobook https://pypi.python.org/pypi/goobook/
+set query_command="goobook query '%s'"
+macro index,pager a "<pipe-message>goobook add<return>" "add sender to google contacts"
+bind editor <Tab> complete-query
+
+# color of folders with new mail
+color sidebar_new yellow default
+
+# ctrl-n, ctrl-p to select next, prev folder
+# ctrl-o to open selected folder
+bind index CP sidebar-prev
+bind index CN sidebar-next
+bind index CO sidebar-open
+bind pager CP sidebar-prev
+bind pager CN sidebar-next
+bind pager CO sidebar-open
+
+# b toggles sidebar visibility
+macro index b ‘<enter-command>toggle sidebar_visible<enter>’
+macro pager b ‘<enter-command>toggle sidebar_visible<enter>’
+
+# Remap bounce-message function to “B”
+bind index B bounce-message
