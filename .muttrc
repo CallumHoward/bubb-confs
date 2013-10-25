@@ -1,7 +1,4 @@
-#default mailbox format (could be maildir, mbox or several others)
-#set mailbox_type=maildir
-
-unset beep #don't need no beeping aye
+unset beep #don't ya beep me aye
 
 #creds
 set from = "some.guy@gmail.com"
@@ -20,9 +17,9 @@ set imap_check_subscribed
 #folders
 set folder = "imaps://imap.gmail.com:993"
 set spoolfile = "+INBOX"
-set postponed = "+[Google Mail]/Drafts"
-set record = "+[Google Mail]/Sent Mail"
-set trash = "+[Google Mail]/Trash"
+set postponed = "+Drafts"
+set record = "+Sent Mail"
+set trash = "+Trash"
 
 #local
 set header_cache =~/.mutt/cache/headers
@@ -38,8 +35,11 @@ set auto_tag #If something is tagged run commands on all tagged msgs
 set delete_untag #Untag msgs when marking them for deletion
 unset mark_old #don't mark messages as old when I pass over them with the cursor
 set editor="nano" #Default editor
-set sort = 'date-received' #Sorting
-set sort_aux = 'last-date-received'
+set sort=threads #Sorting
+set strict_threads="yes"
+set sort_browser="date"
+set sort_aux ="last-date-received"
+unset collapse_unread
 set fcc_attach #forward attachments
 unset reply_self #don't include myself when replying to a group
 
@@ -75,16 +75,18 @@ set mailcap_path="~/.mailcap"
 set implicit_autoview
 auto_view text/html application/x-pgp-message image/* application/pdf application/msword
 
-#macros
+#Bindings and Macros
 bind editor <space> noop
 bind pager <up> previous-line
 bind pager <down> next-line
 bind pager [ previous-unread
 bind pager ] next-unread
+bind index - collapse-thread
+bind index _ collapse-all
 macro index gi "<change-folder>=INBOX<enter>" "Go to inbox"
 macro index ga "<change-folder>=[Google Mail]/All Mail<enter>" "Go to all mail"
-macro index gd "<change-folder>=[Google Mail]/Drafts<enter>" "Go to drafts"
-macro index gt "<change-folder> =[Google Mail]/Trash<enter>" "Go to trash"
+macro index gd "<change-folder>=[Google Mail]/Drafts<enter>" "Go to Drafts"
+macro index gt "<change-folder> =[Google Mail]/Trash<enter>" "Go to Trash"
 
 # color WHERE FOREGROUND BACKGROUND REGEXP
 color normal	white black
@@ -115,3 +117,38 @@ color header	brightblue black ^Subject:
 color body	brightred black [\-\.+_a-zA-Z0-9]+@[\-\.a-zA-Z0-9]+ # identifies email addresses
 
 color body	brightblue black (https?|ftp)://[\-\.,/%~_:?&=\#a-zA-Z0-9]+ # identifies URLs
+
+# Color definitions when on a mono screen
+mono bold      bold
+mono underline underline
+mono indicator reverse
+mono error     bold
+
+## SIDEBAR ##
+# set up the sidebar, default not visible
+set sidebar_width=20
+set sidebar_visible=yes
+set sidebar_delim="|"
+set sidebar_sort=yes
+
+# which mailboxes to list in the sidebar
+mailboxes =inbox =ml
+
+# color of folders with new mail
+color sidebar_new yellow default
+
+# ctrl-n, ctrl-p to select next, prev folder
+# ctrl-o to open selected folder
+bind index CP sidebar-prev
+bind index CN sidebar-next
+bind index CO sidebar-open
+bind pager CP sidebar-prev
+bind pager CN sidebar-next
+bind pager CO sidebar-open
+
+# b toggles sidebar visibility
+macro index b ‘<enter-command>toggle sidebar_visible<enter>’
+macro pager b ‘<enter-command>toggle sidebar_visible<enter>’
+
+# Remap bounce-message function to “B”
+bind index B bounce-message
