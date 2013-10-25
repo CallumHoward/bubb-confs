@@ -1,4 +1,6 @@
-unset beep #don't ya beep me aye
+#Aliases
+set reverse_alias #If alias exists, use it
+set alias_file="~/.muttalias"
 
 #creds
 set from = "some.guy@gmail.com"
@@ -26,11 +28,6 @@ set header_cache =~/.mutt/cache/headers
 set message_cachedir =~/.mutt/cache/bodies
 set certificate_file =~/.mutt/certificates
 
-# Goobook https://pypi.python.org/pypi/goobook/
-set query_command="goobook query '%s'"
-macro index,pager a "<pipe-message>goobook add<return>" "add sender to google contacts"
-bind editor <Tab> complete-query
-
 set nomove  #Stop asking to "move read messages to mbox"!
 set edit_hdrs #See headers when editing mail
 set include=yes #Quote mail in reply
@@ -47,13 +44,12 @@ set sort_aux ="last-date-received"
 unset collapse_unread
 set fcc_attach #forward attachments
 unset reply_self #don't include myself when replying to a group
+unset beep #don't need no beeping 
 
 set print=ask-yes #Ask if print
 set print_command="mutt-print %s" #Send your message to the line printer.
 
-#Aliases
-set reverse_alias #If alias exists, use it
-set alias_file="~/.muttalias"
+set ispell="aspell -e -c"
 
 #View
 push <show-version> #get Mutt to show its version on startup
@@ -137,7 +133,12 @@ set sidebar_delim="|"
 set sidebar_sort=yes
 
 # which mailboxes to list in the sidebar
-mailboxes =inbox =ml
+mailboxes =inbox
+
+# Goobook https://pypi.python.org/pypi/goobook/
+set query_command="goobook query '%s'"
+macro index,pager a "<pipe-message>goobook add<return>" "add sender to google contacts"
+bind editor <Tab> complete-query
 
 # color of folders with new mail
 color sidebar_new yellow default
