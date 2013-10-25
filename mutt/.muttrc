@@ -1,6 +1,6 @@
 #Aliases
 set reverse_alias #If alias exists, use it
-set alias_file="~/.muttalias"
+set alias_file="~/.mutt/muttalias"
 
 #creds
 set from = "some.guy@gmail.com"
@@ -14,7 +14,7 @@ set imap_keepalive = 900
 # How often should mutt check for new mail? ----
 set mail_check=60
 
-# Notify me of new mail this often -------------
+# Notify me of new mail ------------------------
 set timeout=15
 set imap_check_subscribed
 
@@ -30,21 +30,26 @@ set header_cache =~/.mutt/cache/headers
 set message_cachedir =~/.mutt/cache/bodies
 set certificate_file =~/.mutt/certificates
 
+# Compose View Options -------------------------
+set envelope_from                    # which from?
+set sig_dashes                       # dashes before sig
+set edit_headers                     # show headers when composing
+set fast_reply                       # skip to compose when replying
+unset reply_self
+set askcc                            # ask for CC:
+set fcc_attach                       # save attachments with the body
+unset mime_forward                   # forward attachments as part of body
+set forward_format = "Fwd: %s"       # format of subject when forwarding
+set forward_decode                   # decode when forwarding
+set attribution = "On %d, %n wrote:" # format of quoting header
+set reply_to                         # reply to Reply to: field
+set reverse_name                     # reply as whomever it was to
+set include                          # include message in replies
+set forward_quote                    # include message in forwards
+
 # Various settings
 # Stop asking to "move read messages to mbox"! -
 set nomove
-
-# See headers while editing mail ---------------
-set edit_hdrs
-
-# Quote mail in reply --------------------------
-set include=yes
-
-# Use adress from reply-to header when replying -
-set reply_to
-
-# Don't ask, just reply! ------------------------
-set fast_reply
 
 # If something is tagged run commands on all tagged msgs
 set auto_tag
@@ -61,19 +66,13 @@ set editor="nano"
 # Index View Options -----------------------------
 set date_format = "%m/%d"
 set index_format = "[%Z]  %D  %-20.20F  %s"
-set sort=threads # As in GMail
+set sort=threads	# As in GMail
 set strict_threads="yes"
 set sort_browser="date"
-set sort_aux ="reverse-last-date-received" # As in GMail
+set sort_aux ="reverse-last-date-received" 	# As in GMail
 unset collapse_unread
 set sort_re
 set reply_regexp = "^(([Rr][Ee]?(\[[0-9]+\])?: *)?(\[[^]]+\] *)?)*"
-
-# Forward attachments -----------------------------
-set fcc_attach
-
-# Don't include myself when replying to a group ---
-unset reply_self
 
 # Don't need no beeping ---------------------------
 unset beep
@@ -86,20 +85,23 @@ set quit
 
 # Printing actions --------------------------------
 set print=ask-yes #Ask if print
-set print_command="mutt-print %s" #Send your message to the line printer.
+set print_command="mutt-print %s" 	#Send your message to the line printer.
 
 # Spell Checking ----------------------------------
 set ispell="aspell -e -c"
 
 # View Options ------------------------------------
-push <show-version> #get Mutt to show its version on startup
-set forward_format="Fwd: %s"
+push <show-version> 		#get Mutt to show its version on startup
 set indent_str="> "
 set tilde # pad bottom blank lines when in page view
-set pager_index_lines=4 #Show 2 messages on either side of the message I'm reading.
-set pager_context=5 #Paging down a message leaves 5 lines of overlap, so you don't get lost.
-set arrow_cursor #Changes the `bar' cursor to an arrow.  Default is the bar.
-alternative_order text/enriched text/plain text/html #In which order to show the body parts (I leave HTML for last)
+set pager_index_lines=4 	#Show 2 messages on either side of the message I'm reading.
+set pager_context=5 		#Paging down a message leaves 5 lines of overlap, so you don't get lost.
+set pager_stop             	# don't go to next message automatically
+set menu_scroll            	# scroll in menus
+set arrow_cursor 		#Changes the `bar' cursor to an arrow.  Default is the bar.
+unset markers              	# no ugly plus signs
+set quote_regexp = "^( {0,4}[>|:#%]| {0,4}[a-z0-9]+[>|]+)+"
+alternative_order text/enriched text/plain text/html 	#In which order to show the body parts (I leave HTML for last)
 unset resolve
 folder-hook . 'macro pager d "<exit><delete-message>" "Delete the message"'
 
@@ -114,6 +116,7 @@ macro index \cb |urlview\n 'call urlview to extract URLs out of a message'
 
 # Dealing with attachments -------------------------
 set mailcap_path="~/.mutt/mailcap"
+bind attach <return> view-mailcap 	# View attachments properly.
 set implicit_autoview
 auto_view text/html application/x-pgp-message image/* application/pdf application/msword
 
@@ -124,8 +127,6 @@ bind editor <Tab> complete-query
 
 # Bindings and Macros -------------------------------
 bind editor <space> noop
-bind pager <up> previous-line
-bind pager <down> next-line
 bind pager [ previous-unread
 bind pager ] next-unread
 bind index,pager <down>   sidebar-next
@@ -133,7 +134,7 @@ bind index,pager <up>     sidebar-prev
 bind index,pager <right>  sidebar-open
 bind index - collapse-thread
 bind index _ collapse-all
-macro index \Cr "T~U<enter><tag-prefix><clear-flag>N<untag-pattern>.<enter>" "mark all messages as read" # Ctrl-R to mark all as read
+macro index \Cr "T~U<enter><tag-prefix><clear-flag>N<untag-pattern>.<enter>" "mark all messages as read" 	# Ctrl-R to mark all as read
 macro index gi "<change-folder>=INBOX<enter>" "Go to inbox"
 macro index ga "<change-folder>=[Google Mail]/All Mail<enter>" "Go to all mail"
 macro index gd "<change-folder>=[Google Mail]/Drafts<enter>" "Go to Drafts"
@@ -176,7 +177,6 @@ mono indicator reverse
 mono error     bold
 
 ## SIDEBAR ## -----------------------------------------
-# set up the sidebar, default not visible
 set sidebar_width=24
 set sidebar_visible=yes
 set sidebar_delim=" |"
