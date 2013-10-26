@@ -1,7 +1,3 @@
-#Aliases
-set reverse_alias #If alias exists, use it
-set alias_file="~/.mutt/muttalias"
-
 #creds
 set from = "some.guy@gmail.com"
 set realname = "Some Guy"
@@ -19,13 +15,27 @@ set timeout=15
 set imap_check_subscribed
 
 # GMail Folders --------------------------------
-set folder = "imaps://imap.gmail.com:993"
-set spoolfile = "+INBOX"
-set postponed = "+Drafts"
-set record = "+Sent Mail"
-set trash = "+Trash"
+#set folder = "imaps://imap.gmail.com:993"
+#set spoolfile = "+INBOX"
+#set postponed = "+Drafts"
+#set record = "+Sent Mail"
+#set trash = "+Bin"
+set folder = "~/.mail"
+set spoolfile = "+some.guy/INBOX"
+set mbox = "+some.guy/archive"
+set postponed = "+some.guy/drafts"
+set record = "+some.guy/sent"
+set trash = "+some.guy/Trash"
+mailboxes  +some.guy/INBOX \
+            +some.guy/archive \
+            +some.guy/sent \
+            +some.guy/drafts \
+            +some.guy/Trash \
 
 # Local Folders --------------------------------
+#Aliases
+set reverse_alias #If alias exists, use it
+set alias_file="~/.mutt/muttalias"
 set header_cache =~/.mutt/cache/headers
 set message_cachedir =~/.mutt/cache/bodies
 set certificate_file =~/.mutt/certificates
@@ -48,60 +58,46 @@ set include                          # include message in replies
 set forward_quote                    # include message in forwards
 
 # Various settings
-# Stop asking to "move read messages to mbox"! -
-set nomove
-
-# If something is tagged run commands on all tagged msgs
-set auto_tag
-
-# Untag msgs when marking them for deletion ------
-set delete_untag
-
-# Don't mark messages as old when I pass over them with the cursor
-unset mark_old 
-
-# Default editor ---------------------------------
-set editor="nano" 
-
-# Index View Options -----------------------------
-set date_format = "%m/%d"
-set index_format = "[%Z]  %D  %-20.20F  %s"
-set sort=threads	# As in GMail
-set strict_threads="yes"
-set sort_browser="date"
-set sort_aux ="reverse-last-date-received" 	# As in GMail
-unset collapse_unread
-set sort_re
-set reply_regexp = "^(([Rr][Ee]?(\[[0-9]+\])?: *)?(\[[^]]+\] *)?)*"
-
-# Don't need no beeping ---------------------------
-unset beep
-
-# shut up, mutt -----------------------------------
 set wait_key=no
 set delete
 unset confirmappend
 set quit
+set nomove          # Stop asking to "move read messages to mbox"! -
+set auto_tag        # If something is tagged run commands on all tagged msgs
+set delete_untag    # Untag msgs when marking them for deletion
+unset mark_old      # Don't mark messages as old when I pass over them with the cursor
+set editor="nano" 
+unset beep
+
+# Index View Options -----------------------------
+set date_format = "%m/%d"
+set index_format = "[%Z]  %D  %-20.20F  %s"
+set sort=threads                                # As in GMail
+set strict_threads="yes"
+set sort_browser="date"
+set sort_aux ="reverse-last-date-received"      # As in GMail
+unset collapse_unread
+set sort_re
+set reply_regexp = "^(([Rr][Ee]?(\[[0-9]+\])?: *)?(\[[^]]+\] *)?)*"
 
 # Printing actions --------------------------------
 set print=ask-yes #Ask if print
-set print_command="mutt-print %s" 	#Send your message to the line printer.
+set print_command="mutt-print %s"   #Send your message to the line printer.
 
 # Spell Checking ----------------------------------
 set ispell="aspell -e -c"
 
 # View Options ------------------------------------
-push <show-version> 		#get Mutt to show its version on startup
 set indent_str="> "
-set tilde # pad bottom blank lines when in page view
-set pager_index_lines=4 	#Show 2 messages on either side of the message I'm reading.
-set pager_context=5 		#Paging down a message leaves 5 lines of overlap, so you don't get lost.
-set pager_stop             	# don't go to next message automatically
-set menu_scroll            	# scroll in menus
-set arrow_cursor 		#Changes the `bar' cursor to an arrow.  Default is the bar.
-unset markers              	# no ugly plus signs
+set tilde                       # pad bottom blank lines when in page view
+set pager_index_lines=10        # Show 2 messages on either side of the message I'm reading.
+set pager_context=5             # Paging down a message leaves 5 lines of overlap, so you don't get lost.
+set pager_stop                  # don't go to next message automatically
+set menu_scroll                 # scroll in menus
+set arrow_cursor                # Changes the `bar' cursor to an arrow.  Default is the bar.
+unset markers                   # no ugly plus signs
 set quote_regexp = "^( {0,4}[>|:#%]| {0,4}[a-z0-9]+[>|]+)+"
-alternative_order text/enriched text/plain text/html 	#In which order to show the body parts (I leave HTML for last)
+alternative_order text/enriched text/plain text/html    #In which order to show the body parts (I leave HTML for last)
 unset resolve
 folder-hook . 'macro pager d "<exit><delete-message>" "Delete the message"'
 
@@ -116,7 +112,7 @@ macro index \cb |urlview\n 'call urlview to extract URLs out of a message'
 
 # Dealing with attachments -------------------------
 set mailcap_path="~/.mutt/mailcap"
-bind attach <return> view-mailcap 	# View attachments properly.
+bind attach <return> view-mailcap   # View attachments properly.
 set implicit_autoview
 auto_view text/html application/x-pgp-message image/* application/pdf application/msword
 
@@ -125,32 +121,60 @@ set query_command="goobook query '%s'"
 macro index,pager a "<pipe-message>goobook add<return>" "add sender to google contacts"
 bind editor <Tab> complete-query
 
+## SIDEBAR ## -----------------------------------------
+set sidebar_width=30
+set sidebar_visible=yes
+set sidebar_delim=" |"
+set sidebar_sort=yes
+
+set status_chars  = " *%A"
+set status_format = "───[ Folder: %f ]───[%r%m messages%?n? (%n new)?%?d? (%d to delete)?%?t? (%t tagged)? ]───%>─%?p?( %p postponed )?───"
+
 # Bindings and Macros -------------------------------
 bind editor <space> noop
+
+# Pager Key Bindings --------------------------------
+bind pager k  previous-line
+bind pager j  next-line
+bind pager gg top
+bind pager G  bottom
+bind pager R  group-reply
 bind pager [ previous-unread
 bind pager ] next-unread
+
 bind index,pager <down>   sidebar-next
 bind index,pager <up>     sidebar-prev
 bind index,pager <right>  sidebar-open
 bind index - collapse-thread
 bind index _ collapse-all
-macro index \Cr "T~U<enter><tag-prefix><clear-flag>N<untag-pattern>.<enter>" "mark all messages as read" 	# Ctrl-R to mark all as read
-macro index gi "<change-folder>=INBOX<enter>" "Go to inbox"
+bind index B bounce-message     # Remap bounce-message function to “B”
+bind index R group-reply 
+bind index <tab> sync-mailbox 
+bind index <space> collapse-thread
+
+# Ctrl-R to mark all as read
+macro index \Cr "T~U<enter><tag-prefix><clear-flag>N<untag-pattern>.<enter>" "mark all messages as read"
+
+# Sync email
+macro index O "<shell-escape>offlineimap<enter>" "run offlineimap to sync all mail" 
+macro index o "<shell-escape>offlineimap -qf INBOX<enter>" "run offlineimap to sync inbox"
+
+macro index gi "<change-folder>=[Google Mail]/INBOX<enter>" "Go to inbox"
 macro index ga "<change-folder>=[Google Mail]/All Mail<enter>" "Go to all mail"
 macro index gd "<change-folder>=[Google Mail]/Drafts<enter>" "Go to Drafts"
-macro index gt "<change-folder> =[Google Mail]/Trash<enter>" "Go to Trash"
+macro index gt "<change-folder>=[Google Mail]/Bin<enter>" "Go to Trash"
 
 # Color WHERE FOREGROUND BACKGROUND REGEXP ---------
-color normal	white black
+color normal    white black
 color attachment brightyellow black
 color hdrdefault cyan black
 color indicator black cyan
-color markers	brightred black
-color quoted	green black
+color markers   brightred black
+color quoted    green black
 color signature cyan black
-color status	brightgreen blue
-color tilde	blue black
-color tree	red black
+color status    brightgreen blue
+color tilde blue black
+color tree  red black
 
 color index green default ~p # i am to/cc
 color index cyan default ~P # from me
@@ -160,15 +184,15 @@ color index magenta default ~F # flagged
 color index blue default ~T # tagged
 color index red default ~D # deleted
 
-color header	brightgreen black ^From:
-color header	brightcyan black ^To:
-color header	brightcyan black ^Reply-To:
-color header	brightcyan black ^Cc:
-color header	brightblue black ^Subject:
+color header    brightgreen black ^From:
+color header    brightcyan black ^To:
+color header    brightcyan black ^Reply-To:
+color header    brightcyan black ^Cc:
+color header    brightblue black ^Subject:
 
-color body	brightred black [\-\.+_a-zA-Z0-9]+@[\-\.a-zA-Z0-9]+ # identifies email addresses
+color body  brightred black [\-\.+_a-zA-Z0-9]+@[\-\.a-zA-Z0-9]+ # identifies email addresses
 
-color body	brightblue black (https?|ftp)://[\-\.,/%~_:?&=\#a-zA-Z0-9]+ # identifies URLs
+color body  brightblue black (https?|ftp)://[\-\.,/%~_:?&=\#a-zA-Z0-9]+ # identifies URLs
 
 # Color definitions when on a mono screen -------------
 mono bold      bold
@@ -176,30 +200,5 @@ mono underline underline
 mono indicator reverse
 mono error     bold
 
-## SIDEBAR ## -----------------------------------------
-set sidebar_width=24
-set sidebar_visible=yes
-set sidebar_delim=" |"
-set sidebar_sort=yes
-
-set status_chars  = " *%A"
-set status_format = "───[ Folder: %f ]───[%r%m messages%?n? (%n new)?%?d? (%d to delete)?%?t? (%t tagged)? ]───%>─%?p?( %p postponed )?───"
-
 # color of folders with new mail
 color sidebar_new yellow default
-
-# ctrl-n, ctrl-p to select next, prev folder
-# ctrl-o to open selected folder
-bind index CP sidebar-prev
-bind index CN sidebar-next
-bind index CO sidebar-open
-bind pager CP sidebar-prev
-bind pager CN sidebar-next
-bind pager CO sidebar-open
-
-# b toggles sidebar visibility
-macro index b ‘<enter-command>toggle sidebar_visible<enter>’
-macro pager b ‘<enter-command>toggle sidebar_visible<enter>’
-
-# Remap bounce-message function to “B”
-bind index B bounce-message
