@@ -99,24 +99,24 @@ alias updt='sudo apt-get update && sudo apt-get upgrade'
 alias twitter='turses'
 
 # SSH aliases
-alias pb='ssh -p 300 pi@pibang'
-alias fp='ssh -p 333 'pi@funpi''
-alias sp='ssh -p 303 pi@securitypi'
+alias pb='ssh pi@pibang'
+alias fp='ssh pi@funpi'
+alias sp='ssh pi@securitypi'
 
 # FTP aliases
-alias ftpp='ftp pibang 202'
-alias ftpf='ftp funpi 201'
-alias ftps='ftp securitypi 203'
+alias ftpp='ftp pibang'
+alias ftpf='ftp funpi'
+alias ftps='ftp securitypi'
 
-#alias vncfp='xtightvncviewer 192.168.1.20:1'
+alias vncfp='xtightvncviewer x:1'
 
 # Serial aliases
 alias compi='minicom --color=on -D /dev/ttyUSB0 -b 115200 -o'
 alias scrpi='sudo screen -A /dev/ttyUSB0 115200'
 
 # Disk mount aliases
-alias PiBang='sudo mount -t cifs //192.168.1.20/BangDisk /media/PiBang -o username=pi'
-alias SecDisk='sudo mount -t cifs //192.168.1.22/MediA /media/PiSecurity -o username=pi'
+alias PiBang='sudo mount -t cifs //x/BangDisk /media/PiBang -o username='
+alias SecDisk='sudo mount -t cifs //x/MediA /media/PiSecurity -o username='
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
