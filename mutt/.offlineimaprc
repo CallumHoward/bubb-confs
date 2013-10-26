@@ -1,0 +1,35 @@
+[general]
+ui = TTY.TTYUI
+accounts = some.guy@gmail.com                           # Change to your own data
+pythonfile=~/.mutt/offlineimap.py
+fsync = False
+
+[Account some.guy@gmail.com]                            # Change to your own data
+localrepository = some.guy@gmail.com-Local              # Change to your own data
+remoterepository = some.guy@gmail.com-Remote            # Change to your own data
+status_backend = sqlite
+postsynchook = notmuch new
+
+[Repository some.guy@gmail.com-Local]                   # Change to your own data
+type = Maildir
+localfolders = ~/.mail/some.guy                         # Change to your own data
+nametrans = lambda folder: {'drafts':  '[Google Mail]/Drafts',
+                            'sent':    '[Google Mail]/Sent Mail',
+                            'trash':   '[Google Mail]/Bin',
+                            'archive': '[Google Mail]/All Mail',
+                            }.get(folder, folder)
+
+[Repository some.guy@gmail.com-Remote]                  # Change to your own data
+maxconnections = 1
+type = Gmail
+remoteuser = some.guy@gmail.com                         # Change to your own data
+remotepass = some.guy's password                        # Change to your own data
+realdelete = no
+nametrans = lambda folder: {'[Google Mail]/Drafts':    'drafts',
+                            '[Google Mail]/Sent Mail': 'sent',
+                            '[Google Mail]/Bin':     'trash',
+                            '[Google Mail]/All Mail':  'archive',
+                            }.get(folder, folder)
+folderfilter = lambda folder: folder not in ['[Google Mail]/Bin',
+                                             '[Google Mail]/Spam',
+                                             ]
