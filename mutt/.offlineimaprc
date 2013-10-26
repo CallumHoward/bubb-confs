@@ -1,29 +1,29 @@
 [general]
-ui = blinkenlights                                      # Other available: ttyui, basic, quiet or machineui.
-accounts = some.guy@gmail.com                           # Change to your own data
+ui = blinkenlights
+accounts = some.guy@gmail.com
 pythonfile=~/.mutt/offlineimap.py
 fsync = False
 
-[Account some.guy@gmail.com]                            # Change to your own data
-localrepository = some.guy@gmail.com-Local              # Change to your own data
-remoterepository = some.guy@gmail.com-Remote            # Change to your own data
+[Account some.guy@gmail.com]
+localrepository = some.guy@gmail.com-Local
+remoterepository = some.guy@gmail.com-Remote
 status_backend = sqlite
 postsynchook = notmuch new
 
-[Repository some.guy@gmail.com-Local]                   # Change to your own data
+[Repository some.guy@gmail.com-Local]
 type = Maildir
-localfolders = ~/.mail/some.guy                         # Change to your own data
+localfolders = ~/.mail/some.folder
 nametrans = lambda folder: {'drafts':  '[Google Mail]/Drafts',
                             'sent':    '[Google Mail]/Sent Mail',
                             'trash':   '[Google Mail]/Bin',
                             'archive': '[Google Mail]/All Mail',
                             }.get(folder, folder)
 
-[Repository some.guy@gmail.com-Remote]                  # Change to your own data
+[Repository some.guy@gmail.com-Remote]
 maxconnections = 1
 type = Gmail
-remoteuser = some.guy@gmail.com                         # Change to your own data
-remotepass = some.guy's password                        # Change to your own data
+remoteuser = some.guy@gmail.com
+remotepasseval = get_keychain_pass(account="some.guy@gmail.com", server="imap.gmail.com")
 realdelete = no
 nametrans = lambda folder: {'[Google Mail]/Drafts':    'drafts',
                             '[Google Mail]/Sent Mail': 'sent',

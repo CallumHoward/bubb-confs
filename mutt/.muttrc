@@ -1,104 +1,112 @@
-#Credentials # Change to your own data
-set from = "some.guy@gmail.com"
-set realname = "Some Guy"
-set imap_user = "some.guy@gmail.com"
-set imap_pass = "some.guy's.password"
-set smtp_url = "smtp://some.guy@smtp.gmail.com:587/"
-set smtp_pass = "some.guy's.password"
-
-set imap_keepalive = 900
+# Credentials ---------------------------------
+set from            = "Some Guy <some.guy@gmail.com>"
+set realname        = "Some Guy"
+set imap_user       = "some.guy@gmail.com"
+set imap_pass       = "some.password"
+set smtp_url        = "smtp://some.guy@smtp.gmail.com:587/"
+set smtp_pass       = "some.password"
+#set imap_keepalive = 900
 
 # How often should mutt check for new mail? ----
-set mail_check=60
+set mail_check      = 0
 
 # Notify me of new mail ------------------------
-set timeout=15
-set imap_check_subscribed
+#set timeout        = 15
+#set imap_check_subscribed
 
 # GMail Folders --------------------------------
-#set folder = "imaps://imap.gmail.com:993"
-#set spoolfile = "+INBOX"
-#set postponed = "+Drafts"
-#set record = "+Sent Mail"
-#set trash = "+Bin"
-set folder = "~/.mail"
-set spoolfile = "+some.guy/INBOX"               # Change to your own data
-set mbox = "+some.guy/archive"                  # Change to your own data
-set postponed = "+some.guy/drafts"              # Change to your own data
-set record = "+some.guy/sent"                   # Change to your own data
-set trash = "+some.guy/Trash"                   # Change to your own data
-mailboxes  +some.guy/INBOX \                    # Change to your own data
-            +some.guy/archive \                 # Change to your own data
-            +some.guy/sent \                    # Change to your own data
-            +some.guy/drafts \                  # Change to your own data
-            +some.guy/Trash \                   # Change to your own data
+# For use with IMAP synchronisation
+#set folder         = "imaps://imap.gmail.com:993"
+#set spoolfile      = "+INBOX"
+#set postponed      = "+Drafts"
+#set record         = "+Sent Mail"
+#set trash          = "+Bin"
+
+# For use with offlineIMAP
+set mbox_type       = Maildir
+set sendmail        = /usr/bin/msmtp
+set folder          = "~/.mail"
+set spoolfile       = "+some.guy/INBOX"
+set mbox            = "+some.guy/archive"
+set postponed       = "+some.guy/drafts"
+set record          = "+some.guy/sent"
+set trash           = "+some.guy/[Google\ Mail].Bin"
+mailboxes   +some.guy/INBOX \
+            +some.guy/archive \
+            +some.guy/sent \
+            +some.guy/drafts \
+            +some.guy/any.other.mail.folder \
 
 # Local Folders --------------------------------
-#Aliases
-set reverse_alias #If alias exists, use it
-set alias_file="~/.mutt/muttalias"              # Change to your own data
-set header_cache =~/.mutt/cache/headers
-set message_cachedir =~/.mutt/cache/bodies
-set certificate_file =~/.mutt/certificates
+set alias_file          = ~/.mutt/muttalias
+set header_cache        = ~/.mutt/cache/headers
+set message_cachedir    = ~/.mutt/cache/bodies
+set certificate_file    = ~/.mutt/certificates
+set signature           = ~/.mutt/signature
+set mailcap_path        = ~/.mutt/mailcap
+source                  ~/.mutt/colors
 
 # Compose View Options -------------------------
-set envelope_from                    # which from?
-set sig_dashes                       # dashes before sig
-set edit_headers                     # show headers when composing
-set fast_reply                       # skip to compose when replying
+set envelope_from                        # which from?
+set sig_dashes                           # dashes before sig
+set edit_headers                         # show headers when composing
+set fast_reply                           # skip to compose when replying
 unset reply_self
-set askcc                            # ask for CC:
-set fcc_attach                       # save attachments with the body
-unset mime_forward                   # forward attachments as part of body
-set forward_format = "Fwd: %s"       # format of subject when forwarding
-set forward_decode                   # decode when forwarding
-set attribution = "On %d, %n wrote:" # format of quoting header
-set reply_to                         # reply to Reply to: field
-set reverse_name                     # reply as whomever it was to
-set include                          # include message in replies
-set forward_quote                    # include message in forwards
+set askcc                                # ask for CC:
+set fcc_attach                           # save attachments with the body
+unset mime_forward                       # forward attachments as part of body
+set forward_format  = "Fwd: %s"          # format of subject when forwarding
+set forward_decode                       # decode when forwarding
+set attribution     = "On %d, %n wrote:" # format of quoting header
+set reply_to                             # reply to Reply to: field
+set reverse_name                         # reply as whomever it was to
+set include                              # include message in replies
+set forward_quote                        # include message in forwards
+
+# Aliases
+set reverse_alias                        #If alias exists, use it
 
 # Various settings
-set wait_key=no
+set wait_key            = no
 set delete
 unset confirmappend
 set quit
-set nomove          # Stop asking to "move read messages to mbox"! -
-set auto_tag        # If something is tagged run commands on all tagged msgs
-set delete_untag    # Untag msgs when marking them for deletion
-unset mark_old      # Don't mark messages as old when I pass over them with the cursor
-set editor="nano" 
+set nomove                               # Stop asking to "move read messages to mbox"! -
+set auto_tag                             # If something is tagged run commands on all tagged msgs
+set delete_untag                         # Untag msgs when marking them for deletion
+unset mark_old                           # Don't mark messages as old when I pass over them with the cursor
+set editor              = "nano" 
 unset beep
 
 # Index View Options -----------------------------
-set date_format = "%m/%d"
-set index_format = "[%Z]  %D  %-20.20F  %s"
-set sort=threads                                # As in GMail
-set strict_threads="yes"
-set sort_browser="date"
-set sort_aux ="reverse-last-date-received"      # As in GMail
+set date_format         = "%m/%d"
+set index_format        = "[%Z]  %D  %-20.20F  %s"
+set sort=threads                                            # As in GMail
+set strict_threads      = "yes"
+set sort_browser        = "date"
+set sort_aux            = "reverse-last-date-received"      # As in GMail
 unset collapse_unread
 set sort_re
-set reply_regexp = "^(([Rr][Ee]?(\[[0-9]+\])?: *)?(\[[^]]+\] *)?)*"
+set reply_regexp        = "^(([Rr][Ee]?(\[[0-9]+\])?: *)?(\[[^]]+\] *)?)*"
 
 # Printing actions --------------------------------
-set print=ask-yes                               # Ask if print
-set print_command="mutt-print %s"               # Send your message to the line printer.
+set print               = ask-yes                           #Ask if print
+set print_command       = "mutt-print %s"                   #Send your message to the line printer.
 
 # Spell Checking ----------------------------------
-set ispell="aspell -e -c"
+set ispell              = "aspell -e -c"
 
 # View Options ------------------------------------
-set indent_str="> "
-set tilde                                       # pad bottom blank lines when in page view
-set pager_index_lines=10                        # Show 2 messages on either side of the message I'm reading.
-set pager_context=5                             # Paging down a message leaves 5 lines of overlap, so you don't get lost.
-set pager_stop                                  # don't go to next message automatically
-set menu_scroll                                 # scroll in menus
-set arrow_cursor                                # Changes the `bar' cursor to an arrow.  Default is the bar.
-unset markers                                   # no ugly plus signs
-set quote_regexp = "^( {0,4}[>|:#%]| {0,4}[a-z0-9]+[>|]+)+"
-alternative_order text/enriched text/plain text/html    #In which order to show the body parts (I leave HTML for last)
+set indent_str          = "> "
+set tilde                               # pad bottom blank lines when in page view
+set pager_index_lines   = 10            # Show 2 messages on either side of the message I'm reading.
+set pager_context       = 5             # Paging down a message leaves 5 lines of overlap, so you don't get lost.
+set pager_stop                          # don't go to next message automatically
+set menu_scroll                         # scroll in menus
+set arrow_cursor                        # Changes the `bar' cursor to an arrow.  Default is the bar.
+unset markers                           # no ugly plus signs
+set quote_regexp        = "^( {0,4}[>|:#%]| {0,4}[a-z0-9]+[>|]+)+"
+alternative_order text/enriched text/plain text/html        #In which order to show the body parts (I leave HTML for last)
 unset resolve
 folder-hook . 'macro pager d "<exit><delete-message>" "Delete the message"'
 
@@ -112,24 +120,22 @@ hdr_order From: Date: To: Cc: Reply-To: Subject:
 macro index \cb |urlview\n 'call urlview to extract URLs out of a message'
 
 # Dealing with attachments -------------------------
-set mailcap_path="~/.mutt/mailcap"
-bind attach <return> view-mailcap
+bind attach <return> view-mailcap               # View attachments properly.
 set implicit_autoview
 auto_view text/html application/x-pgp-message image/* application/pdf application/msword
 
 # Goobook https://pypi.python.org/pypi/goobook/ -----
-set query_command="goobook query '%s'"
+set query_command       = "goobook query '%s'"
 macro index,pager a "<pipe-message>goobook add<return>" "add sender to google contacts"
 bind editor <Tab> complete-query
 
 ## SIDEBAR ## -----------------------------------------
-set sidebar_width=30
-set sidebar_visible=yes
-set sidebar_delim=" |"
-set sidebar_sort=yes
-
-set status_chars  = " *%A"
-set status_format = "───[ Folder: %f ]───[%r%m messages%?n? (%n new)?%?d? (%d to delete)?%?t? (%t tagged)? ]───%>─%?p?( %p postponed )?───"
+set sidebar_width       = 30
+set sidebar_visible     = yes
+set sidebar_delim       = " |"
+set sidebar_sort        = yes
+set status_chars        = " *%A"
+set status_format       = "───[ Folder: %f ]───[%r%m messages%?n? (%n new)?%?d? (%d to delete)?%?t? (%t tagged)? ]───%>─%?p?( %p postponed )?───"
 
 # Bindings and Macros -------------------------------
 bind editor <space> noop
@@ -142,67 +148,57 @@ bind pager G  bottom
 bind pager R  group-reply
 bind pager [ previous-unread
 bind pager ] next-unread
-bind index <space> collapse-thread
-bind index _ collapse-all
 
-# Sidebar Navigation --------------------------------
 bind index,pager <down>   sidebar-next
 bind index,pager <up>     sidebar-prev
 bind index,pager <right>  sidebar-open
-
-bind index B bounce-message                     # Remap bounce-message function to “B”
+bind index - collapse-thread
+bind index _ collapse-all
+bind index B bounce-message     # Remap bounce-message function to “B”
 bind index R group-reply 
-
 bind index <tab> sync-mailbox 
+bind index <space> collapse-thread
 
 # Ctrl-R to mark all as read
-macro index \Cr "T~U<enter><tag-prefix><clear-flag>N<untag-pattern>.<enter>" "mark all messages as read"
+macro index \Cr \
+    "T~U<enter><tag-prefix><clear-flag>N<untag-pattern>.<enter>" \
+    "mark all messages as read"
 
 # Sync email
-macro index O "<shell-escape>offlineimap<enter>" "run offlineimap to sync all mail" 
-macro index o "<shell-escape>offlineimap -qf INBOX<enter>" "run offlineimap to sync inbox"
+macro index O \
+    "<shell-escape>offlineimap<enter>" \
+    "run offlineimap to sync all mail" 
+macro index o \
+    "<shell-escape>offlineimap -qf INBOX<enter>" \
+    "run offlineimap to sync inbox"
 
-# Macros for inboxes
-macro index gi "<change-folder>=[Google Mail]/INBOX<enter>" "Go to inbox"
-macro index ga "<change-folder>=[Google Mail]/All Mail<enter>" "Go to all mail"
-macro index gd "<change-folder>=[Google Mail]/Drafts<enter>" "Go to Drafts"
-macro index gt "<change-folder>=[Google Mail]/Bin<enter>" "Go to Trash"
+macro index gi \
+    "<change-folder>=some.guy/INBOX<enter>" \
+    "Go to inbox"
+macro index ga \
+    "<change-folder>=some.guy/archive<enter>" \
+    "Go to all mail"
+macro index gs \
+    "<change-folder>=some.guy/sent<enter>" \
+    "Go to Sent Mail"
+macro index gd \
+    "<change-folder>=some.guy/drafts<enter>" \
+    "Go to Drafts"
+macro index gt \
+    "<change-folder>=some.guy/[Google Mail].Bin<enter>" \
+    "Go to Trash"
 
-# Color Settings ------------------------------------
-color normal      white         black
-color attachment  brightyellow  black
-color hdrdefault  cyan          black
-color indicator   black         cyan
-color markers     brightred     black
-color quoted      green         black
-color signature   cyan          black
-color status      brightgreen   blue
-color tilde       blue          black
-color tree        red           black
+macro index D \
+    "<save-message>+some.guy/[Google\ Mail].Bin<enter>" \
+    "move message to the trash"
 
-color index green default ~p            # i am to/cc
-color index cyan default ~P             # from me
-color index yellow default ~N           # new
-color index yellow default ~O           # new
-color index magenta default ~F          # flagged
-color index blue default ~T             # tagged
-color index red default ~D              # deleted
+macro index S \
+    "<save-message>+some.guy/[Google\ Mail].Spam<enter>" \
+    "mark message as spam"
 
-color header    brightgreen  black ^From:
-color header    brightcyan   black ^To:
-color header    brightcyan   black ^Reply-To:
-color header    brightcyan   black ^Cc:
-color header    brightblue   black ^Subject:
-
-color body  brightred black [\-\.+_a-zA-Z0-9]+@[\-\.a-zA-Z0-9]+                 # identifies email addresses
-
-color body  brightblue black (https?|ftp)://[\-\.,/%~_:?&=\#a-zA-Z0-9]+         # identifies URLs
-
-# Color definitions when on a mono screen -------------
-mono bold      bold
-mono underline underline
-mono indicator reverse
-mono error     bold
-
-# color of folders with new mail
-color sidebar_new yellow default
+# GPG
+source /usr/share/doc/mutt-patched/examples/gpg.rc
+set pgp_timeout                 = 3600          # how long to cache the pass-phrase 
+set crypt_autosign              = yes           # automatically sign all outgoing mail 
+set crypt_replyencrypt          = yes           # automatically encrypt replies to encrypted messages
+set pgp_sign_as                 = XXXXXXXX      # my Key ID
