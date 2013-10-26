@@ -1,5 +1,5 @@
 [general]
-ui = TTY.TTYUI
+ui = blinkenlights                                      # Other available: ttyui, basic, quiet or machineui.
 accounts = some.guy@gmail.com                           # Change to your own data
 pythonfile=~/.mutt/offlineimap.py
 fsync = False
