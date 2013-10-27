@@ -30,7 +30,7 @@ set folder          = "~/.mail"
 set spoolfile       = "+some.guy/INBOX"
 set mbox            = "+some.guy/archive"
 set postponed       = "+some.guy/drafts"
-set trash           = "+some.guy/[Google\ Mail].Bin"
+set trash           = "+some.guy/Trash"
 unset record
 mailboxes   +some.guy/INBOX \
             +some.guy/archive \
