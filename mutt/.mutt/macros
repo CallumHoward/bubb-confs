@@ -29,13 +29,21 @@ macro index gd \
     "<change-folder>=bartlomiej.bania/drafts<enter>" \
     "Go to Drafts"
 macro index gt \
-    "<change-folder>=bartlomiej.bania/[Google Mail].Bin<enter>" \
+    "<change-folder>=bartlomiej.bania/Trash<enter>" \
     "Go to Trash"
 
+macro index,pager A  \
+    "<save-message>=bartlomiej.bania/archive<enter><enter>" \
+    "Archive conversation"
+
 macro index D \
-    "<save-message>+bartlomiej.bania/[Google\ Mail].Bin<enter>" \
+    "<save-message>+bartlomiej.bania/Trash<enter>" \
     "move message to the trash"
 
 macro index S \
-    "<save-message>+bartlomiej.bania/[Google\ Mail].Spam<enter>" \
+    "<save-message>+bartlomiej.bania/[Gmail].Spam<enter>" \
     "mark message as spam"
+
+# Hide / Unhide sidebar -----------------------------
+macro index b "<enter-command>toggle sidebar_visible<enter>" "hide sidebar"
+macro pager b "<enter-command>toggle sidebar_visible<enter>" "show sidebar"
