@@ -1,10 +1,9 @@
 # Credentials ---------------------------------
-set from            = "Some Guy <some.guy@gmail.com>"
-set realname        = "Some Guy"
-set imap_user       = "some.guy@gmail.com"
-set imap_pass       = "some.password"
-set smtp_url        = "smtp://some.guy@smtp.gmail.com:587/"
-set smtp_pass       = "some.password"
+# For use with "plain" IMAP synchronisation
+#set imap_user       = "some.guy@gmail.com"
+#set imap_pass       = "some.password"
+#set smtp_url        = "smtp://some.guy@smtp.gmail.com:587/"
+#set smtp_pass       = "some.password"
 #set imap_keepalive = 900
 
 # How often should mutt check for new mail? ----
@@ -15,7 +14,7 @@ set mail_check      = 0
 #set imap_check_subscribed
 
 # GMail Folders --------------------------------
-# For use with IMAP synchronisation
+# For use with "plain" IMAP synchronisation
 #set folder         = "imaps://imap.gmail.com:993"
 #set spoolfile      = "+INBOX"
 #set postponed      = "+Drafts"
@@ -23,14 +22,16 @@ set mail_check      = 0
 #set trash          = "+Bin"
 
 # For use with offlineIMAP
+set from            = "Some Guy <some.guy@gmail.com>"
+set realname        = "Some Guy"
 set mbox_type       = Maildir
-set sendmail        = /usr/bin/msmtp
+set sendmail        = "/usr/bin/msmtp -a some.guy"	# Set to msmtprc config default
 set folder          = "~/.mail"
 set spoolfile       = "+some.guy/INBOX"
 set mbox            = "+some.guy/archive"
 set postponed       = "+some.guy/drafts"
-set record          = "+some.guy/sent"
 set trash           = "+some.guy/[Google\ Mail].Bin"
+unset record
 mailboxes   +some.guy/INBOX \
             +some.guy/archive \
             +some.guy/sent \
