@@ -42,13 +42,15 @@ mailboxes   +some.guy/INBOX \
 set alias_file          = ~/.mutt/muttalias
 set header_cache        = ~/.mutt/cache/headers
 set message_cachedir    = ~/.mutt/cache/bodies
-set certificate_file    = ~/.mutt/certificates
+set certificate_file    = ~/.mutt/
 set signature           = ~/.mutt/signature
 set mailcap_path        = ~/.mutt/mailcap
 source                  ~/.mutt/colors          # All the colors, all lined up
 source                  ~/.mutt/macros          # All the macros, all lined up
 source                  ~/.mutt/bindings        # All the bindings, all lined up
 source                  ~/.mutt/gpg             # GPG settings in a separate file
+source                  ~/.mutt/folder-hooks    # Define folder-hooks
+source                  ~/.mutt/auto_views      # Define auto_views
 
 # Compose View Options -------------------------
 set envelope_from                        # which from?
@@ -71,6 +73,7 @@ set forward_quote                        # include message in forwards
 set reverse_alias                        #If alias exists, use it
 
 # Various settings
+set copy                = no             # Do not copy sent mail.  Gmail smtp already does this.
 set wait_key            = no
 set delete
 unset confirmappend
@@ -80,7 +83,8 @@ set auto_tag                             # If something is tagged run commands o
 set delete_untag                         # Untag msgs when marking them for deletion
 unset mark_old                           # Don't mark messages as old when I pass over them with the cursor
 set editor              = "nano" 
-unset beep
+set beep=yes
+set beep_new=yes
 
 # Index View Options -----------------------------
 set date_format         = "%m/%d"
@@ -112,7 +116,6 @@ unset markers                           # no ugly plus signs
 set quote_regexp        = "^( {0,4}[>|:#%]| {0,4}[a-z0-9]+[>|]+)+"
 alternative_order text/enriched text/plain text/html        #In which order to show the body parts (I leave HTML for last)
 unset resolve
-folder-hook . 'macro pager d "<exit><delete-message>" "Delete the message"'
 
 # Headers Order ------------------------------------
 ignore *
@@ -122,15 +125,14 @@ hdr_order From: Date: To: Cc: Reply-To: Subject:
 
 # Dealing with attachments -------------------------
 set implicit_autoview
-auto_view text/html application/x-pgp-message image/* application/pdf application/msword
 
 # Goobook https://pypi.python.org/pypi/goobook/ -----
 set query_command       = "goobook query '%s'"
 
 ## SIDEBAR ## -----------------------------------------
 set sidebar_width       = 30
-set sidebar_visible     = yes
+set sidebar_visible     = no
 set sidebar_delim       = " |"
-set sidebar_sort        = yes
+set sidebar_sort        = no
 set status_chars        = " *%A"
 set status_format       = "───[ Folder: %f ]───[%r%m messages%?n? (%n new)?%?d? (%d to delete)?%?t? (%t tagged)? ]───%>─%?p?( %p postponed )?───"
