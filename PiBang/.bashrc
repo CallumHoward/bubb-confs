@@ -4,6 +4,7 @@ export LD_LIBRARY_PATH=$LD_LIBRARYPATH:/opt/vc/lib
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
+# don't put duplicate lines or lines starting with space in the history.
 HISTCONTROL=ignoreboth
 
 # append to the history file, don't overwrite it
@@ -12,23 +13,19 @@ shopt -s histappend
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 HISTSIZE=100000
 HISTFILESIZE=200000
-MAIL=/home/pi/Maildir
+MAIL=~/Maildir
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
 
-# If set, the pattern "**" used in a pathname expansion context will
-# match all files and zero or more directories and subdirectories.
-#shopt -s globstar
-
 # Test connection type:
 if [ -n "${SSH_CONNECTION}" ]; then
-    CNX=${Green}        # Connected on remote machine, via ssh (good).
+    CNX=${BBlue}        # Connected on remote machine, via ssh (good).
 elif [[ "${DISPLAY%%:0*}" != "" ]]; then
     CNX=${ALERT}        # Connected on remote machine, not via ssh (bad).
 else
-    CNX=${BCyan}        # Connected on local machine.
+    CNX=${BGreen}        # Connected on local machine.
 fi
 
 # Test user type:
@@ -40,6 +37,9 @@ else
     SU=${BCyan}         # User is normal (well ... most of us are).
 fi
 
+# make less more friendly for non-text input files, see lesspipe(1)
+#[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+
 # set variable identifying the chroot you work in (used in the prompt below)
 if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
     debian_chroot=$(cat /etc/debian_chroot)
@@ -50,10 +50,16 @@ case "$TERM" in
     xterm-color) color_prompt=yes;;
 esac
 
+# uncomment for a colored prompt, if the terminal has the capability; turned
+# off by default to not distract the user: the focus in a terminal window
+# should be on the output of commands, not on the prompt
 force_color_prompt=yes
 
 if [ -n "$force_color_prompt" ]; then
     if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+  # We have color support; assume it's compliant with Ecma-48
+  # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+  # a case would tend to support setf rather than setaf.)
   color_prompt=yes
     else
   color_prompt=
@@ -61,7 +67,7 @@ if [ -n "$force_color_prompt" ]; then
 fi
 
 if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\] \[\033[01;34m\]\w \$\[\033[00m\] '
+    PS1="\[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\] \[\033[1;31m\]\@\[\033[00m\] \[\033[01;34m\]\w \$\[\033[00m\]"
 else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
@@ -80,27 +86,57 @@ esac
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
     alias ls='ls --color=auto'
-    alias dir='dir --color=auto'
-    alias vdir='vdir --color=auto'
+    #alias dir='dir --color=auto'
+    #alias vdir='vdir --color=auto'
 
     alias grep='grep --color=auto'
     alias fgrep='fgrep --color=auto'
     alias egrep='egrep --color=auto'
 fi
 
-# some more ls aliases
+#ls aliases
 alias PAGER='less -r'
 alias l='ls -lh --color'
 alias ll='ls -alh --color'
 alias la='ls -A'
-alias l='ls -CF'
+#alias l='ls -CF'
 
-alias rm='rm -i'
-alias cp='cp -i'
-alias mv='mv -i'
+#file operation aliases
+#alias rm='rm -i'
+#alias cp='cp -i'
+#alias mv='mv -i'
 alias mkdir='mkdir -p' 
 
 alias vi='vim'
+
+# directory aliases
+alias www='cd /var/www/'
+alias Samb='cd /mnt/Samba/'
+
+# log aliases
+alias alog='sudo cat /var/log/auth.log'
+alias flog='sudo cat /var/log/fail2ban.log'
+alias mlog='sudo cat /var/log/messages'
+alias slog='sudo cat /var/log/syslog'
+
+# update alias
+alias updt='sudo apt-get update && sudo apt-get upgrade'
+alias dist='sudo apt-get update && sudo apt-get dist-upgrade'
+
+# ssh aliases
+alias fp='ssh -p 333 pi@funpi'
+alias sp='ssh -p 303 pi@securitypi'
+alias bubbl='ssh -p 313 bubbl@bubbl'
+
+alias haltme='sudo shutdown -h now'
+alias restart='sudo shutdown -r now'
+
+# Pretty-print of some PATH variables:
+alias path='echo -e ${PATH//:/\\n}'
+alias libpath='echo -e ${LD_LIBRARY_PATH//:/\\n}'
+
+alias du='du -kh'    # Makes a more readable output.
+alias df='df -kTh'
 
 alias m='less'
 alias p='pstree -p'
@@ -112,30 +148,6 @@ alias j='jobs -l'
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
-
-# directory aliases
-alias www='cd /var/www/'
-alias Samb='cd /mnt/Samba/'
-
-# logs aliases
-alias alog='sudo cat /var/log/auth.log'
-alias flog='sudo cat /var/log/fail2ban.log'
-alias mlog='sudo cat /var/log/messages'
-alias slog='sudo cat /var/log/syslog'
-
-# update alias
-alias updt='sudo apt-get update && sudo apt-get upgrade'
-alias dist='sudo apt-get update && sudo apt-get dist-upgrade'
-
-alias haltme='sudo shutdown -h now'
-alias restart='sudo shutdown -r now'
-
-# Pretty-print of some PATH variables:
-alias path='echo -e ${PATH//:/\\n}'
-alias libpath='echo -e ${LD_LIBRARY_PATH//:/\\n}'
-
-alias du='du -kh'    # Makes a more readable output.
-alias df='df -kTh'
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
@@ -262,4 +274,14 @@ function ii()   # Get current host related info.
     echo -e "\n${BRed}Local IP Address :$NC" ; my_ip
     echo -e "\n${BRed}Open connections :$NC "; netstat -pan --inet;
     echo
+}
+
+function cline_red {
+PS1="\[\033[31;41;1m\]\333\262\261\260\[\033[37;41;1m\]\u@\h\[\033[0m\033[31;40m\]\333\262\261\260\[\033[37;40;1m\] \d \$(date +%I:%M%P)\n\[\033[31;40;1m\]\w/\[\033[0m\] "
+PS2="\[\033[31;40m\]\333\262\261\260\[\033[0m\]>"
+}
+
+function cline_combo {
+PS1="\[\033[01;34;01m\]\333\262\261\260\[\033[01;37;44m\]\u@\h\[\033[00;34;40m\]\260\261\262\333\[\033[00;34;40m\]\333\262\261\260\[\033[01;37;40m\] \d \$(date +%I:%M%P)\n\[\033[01;33;40m\]$PWD>\[\033[00m\] "
+PS2="\[\033[01;34;01m\]\333\262\261\260\[\033[00;34;40m\]\260\261\262\333\[\033[00;34;40m\]\333\262\261\260\[\033[01;01;34m\]>\[\033[00m\] "
 }
