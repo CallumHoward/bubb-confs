@@ -1,0 +1,62 @@
+# some more ls aliases
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias PAGER='less -r'
+alias h='history 10'
+alias j='jobs -l'
+alias m='less'
+alias md='mkdir'
+alias p='pstree -p'
+alias ping='ping -vc1'
+alias updt='sudo apt-get update && sudo apt-get upgrade'
+alias psc='ps xawf -eo pid,user,cgroup,args'
+
+alias twitter='turses'
+
+# SSH aliases
+alias pb='ssh pi@pibang'
+alias fp='ssh pi@funpi'
+alias sp='ssh pi@securitypi'
+
+# FTP aliases
+alias ftpp='ftp pibang'
+alias ftpf='ftp funpi'
+alias ftps='ftp securitypi'
+
+#alias vncfp='xtightvncviewer pisecurity:1'
+
+# Serial aliases
+alias compi='minicom --color=on -D /dev/ttyUSB0 -b 115200 -o'
+alias scrpi='sudo screen -A /dev/ttyUSB0 115200'
+
+# Disk mount aliases
+alias PiBang='sudo mount -t cifs //pibang.local/BangDisk ~/mnt/PiBang'
+alias SecDisk='sudo mount -t cifs //pisecurity.local/MediA ~/mnt/PiSecurity'
+alias Ubuntu1='sudo mount -t cifs //ubuntu.local/bubbl ~/mnt/bubbl1'
+alias Ubuntu2='sudo mount -t cifs //ubuntu.local/bubbl2 ~/mnt/bubbl2'
+
+# Fast(er) shutdown/restart
+alias haltme='sudo shutdown -h now'
+alias restart='sudo shutdown -r now'
+
+# Pretty-print of some PATH variables:
+alias path='echo -e ${PATH//:/\\n}'
+alias libpath='echo -e ${LD_LIBRARY_PATH//:/\\n}'
+
+alias du='du -kh'    # Makes a more readable output.
+alias df='df -kTh'
+
+alias m='less'
+alias p='pstree -p'
+
+alias unaliasall='unalias -a'
+
+alias h='history'
+alias j='jobs -l'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
