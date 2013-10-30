@@ -116,26 +116,24 @@ alias psc='ps xawf -eo pid,user,cgroup,args'
 alias twitter='turses'
 
 # SSH aliases
-alias pb='ssh -p 300 pi@pibang'
-alias fp='ssh -p 333 'pi@funpi''
-alias sp='ssh -p 303 pi@securitypi'
+alias pb='ssh pi@pibang'
+alias fp='ssh pi@funpi'
+alias sp='ssh pi@securitypi'
 
 # FTP aliases
-alias ftpp='ftp pibang 202'
-alias ftpf='ftp funpi 201'
-alias ftps='ftp securitypi 203'
-
-#alias vncfp='xtightvncviewer 192.168.1.20:1'
+alias ftpp='ftp pibang'
+alias ftpf='ftp funpi'
+alias ftps='ftp securitypi'
 
 # Serial aliases
 alias compi='minicom --color=on -D /dev/ttyUSB0 -b 115200 -o'
 alias scrpi='sudo screen -A /dev/ttyUSB0 115200'
 
 # Disk mount aliases
-alias PiBang='sudo mount -t cifs //192.168.1.20/BangDisk /home/bubbl/mnt/PiBang -o username=pi'
-alias SecDisk='sudo mount -t cifs //192.168.1.22/MediA /home/bubbl/mnt/PiSecurity -o username=pi'
-alias Ubuntu1='sudo mount -t cifs //192.168.1.5/bubbl ~/mnt/bubbl1 -o username=bubbl'
-alias Ubuntu2='sudo mount -t cifs //192.168.1.5/bubbl2 ~/mnt/bubbl2 -o username=bubbl'
+alias PiBang='sudo mount -t cifs //pibang/BangDisk /home/bubbl/mnt/PiBang -o username=pi'
+alias SecDisk='sudo mount -t cifs //securitypi/MediA /home/bubbl/mnt/PiSecurity -o username=pi'
+alias Ubuntu1='sudo mount -t cifs //ubuntu/bubbl ~/mnt/bubbl1 -o username=bubbl'
+alias Ubuntu2='sudo mount -t cifs //ubuntu/bubbl2 ~/mnt/bubbl2 -o username=bubbl'
 
 # Fast(er) shutdown/restart
 alias haltme='sudo shutdown -h now'
