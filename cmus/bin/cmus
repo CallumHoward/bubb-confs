@@ -1,0 +1,10 @@
+#!/bin/bash
+## HOWTO
+#  put the file in your $HOME/bin
+#  add export PATH=$HOME/bin:$PATH to your shell configuration file before runing
+#  enjoy screened cmus
+#  to return to cmus type screen -rd
+#  quit cmus by typing :quit
+if ! screen -r -D cmus >/dev/null ; then
+    screen -S cmus /usr/bin/cmus "$@"
+fi
