@@ -31,12 +31,7 @@ set spoolfile       = "+some.guy/INBOX"
 set mbox            = "+some.guy/archive"
 set postponed       = "+some.guy/drafts"
 set trash           = "+some.guy/Trash"
-unset record
-mailboxes   +some.guy/INBOX \
-            +some.guy/archive \
-            +some.guy/sent \
-            +some.guy/drafts \
-            +some.guy/any.other.mail.folder \
+unset record                                    # Don't save sent mail
 
 # Local Folders --------------------------------
 set alias_file          = ~/.mutt/muttalias
@@ -51,6 +46,7 @@ source                  ~/.mutt/bindings        # All the bindings, all lined up
 source                  ~/.mutt/gpg             # GPG settings in a separate file
 source                  ~/.mutt/folder-hooks    # Define folder-hooks
 source                  ~/.mutt/auto_views      # Define auto_views
+source                  ~/.mutt/mailboxes       # Seek mailboxes there
 
 # Compose View Options -------------------------
 set envelope_from                        # which from?
