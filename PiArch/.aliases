@@ -1,0 +1,53 @@
+# some more ls aliases
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias PAGER='less -r'
+alias h='history 10'
+alias j='jobs -l'
+alias m='less'
+alias md='mkdir'
+alias p='pstree -p'
+alias ping='ping -vc1'
+alias psc='ps xawf -eo pid,user,cgroup,args'
+
+# Fast(er) shutdown/restart
+alias haltme='sudo systemctl halt'
+alias restart='sudo systemctl reboot'
+
+# Pretty-print of some PATH variables:
+alias path='echo -e ${PATH//:/\\n}'
+alias libpath='echo -e ${LD_LIBRARY_PATH//:/\\n}'
+
+alias du='du -kh'    # Makes a more readable output.
+alias df='df -kTh'
+
+alias m='less'
+alias p='pstree -p'
+
+alias unaliasall='unalias -a'
+
+alias h='history'
+alias j='jobs -l'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+
+## Pacman aliases ## {{{
+#if necessary, replace 'pacman' with your favorite AUR helper and adapt the commands accordingly
+alias pac="sudo /usr/bin/pacman -S"             # default action            - install one or more packages
+alias pacu="sudo /usr/bin/pacman -Syu"          # '[u]pdate'                - upgrade all packages to their newest version
+alias pacr="sudo /usr/bin/pacman -Rs"           # '[r]emove'                - uninstall one or more packages
+alias pacs="sudo /usr/bin/pacman -Ss"           # '[s]earch'                - search for a package using one or more keywords
+alias paci="sudo /usr/bin/pacman -Si"           # '[i]nfo'                  - show information about a package
+alias paclo="sudo /usr/bin/pacman -Qdt"         # '[l]ist [o]rphans'        - list all packages which are orphaned
+alias pacc="sudo /usr/bin/pacman -Scc"          # '[c]lean cache'           - delete all not currently installed package files
+alias paclf="sudo /usr/bin/pacman -Ql"          # '[l]ist [f]iles'          - list all files installed by a given package
+alias pacexpl="sudo /usr/bin/pacman -D --asexp"	# 'mark as [expl]icit'  - mark one or more packages as explicitly installed 
+alias pacimpl="sudo /usr/bin/pacman -D --asdep"	# 'mark as [impl]icit'  - mark one or more packages as non explicitly installed
+# '[r]emove [o]rphans'  - recursively remove ALL orphaned packages
+alias pacro="sudo /usr/bin/pacman -Qtdq > /dev/null && sudo /usr/bin/pacman -Rs \$(/usr/bin/pacman -Qtdq | sed -e ':a;N;$!ba;s/\n/ /g')"
+# }}}
