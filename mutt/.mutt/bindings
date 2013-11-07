@@ -14,15 +14,15 @@ bind pager R  group-reply
 bind pager [ previous-unread
 bind pager ] next-unread
 
+bind index,pager s  flag-message                    # Star a message
 bind index,pager <down>   sidebar-next
 bind index,pager <up>     sidebar-prev
 bind index,pager <right>  sidebar-open
 bind index - collapse-thread
 bind index _ collapse-all
-bind index B bounce-message     # Remap bounce-message function to “B”
-bind index R group-reply 
+bind index B bounce-message                         # Remap bounce-message function to “B”
+bind index R group-reply
 bind index <tab> sync-mailbox 
-bind index <space> collapse-thread
 
 # Purge deleted -------------------------------------
 bind index \eD purge-message
