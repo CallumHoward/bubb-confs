@@ -16,32 +16,16 @@ macro index o \
     "<shell-escape>offlineimap -qf INBOX<enter>" \
     "run offlineimap to sync inbox"
 
-macro index gi \
-    "<change-folder>=bartlomiej.bania/INBOX<enter>" \
-    "Go to inbox"
-macro index ga \
-    "<change-folder>=bartlomiej.bania/archive<enter>" \
-    "Go to all mail"
-macro index gs \
-    "<change-folder>=bartlomiej.bania/sent<enter>" \
-    "Go to Sent Mail"
-macro index gd \
-    "<change-folder>=bartlomiej.bania/drafts<enter>" \
-    "Go to Drafts"
-macro index gt \
-    "<change-folder>=bartlomiej.bania/Trash<enter>" \
-    "Go to Trash"
-
-macro index,pager A  \
-    "<save-message>=bartlomiej.bania/archive<enter><enter>" \
+macro index A  \
+    "<save-message>+/archive<enter>" \
     "Archive conversation"
 
 macro index D \
-    "<save-message>+bartlomiej.bania/Trash<enter>" \
+    "<save-message>+/trash<enter>" \
     "move message to the trash"
 
 macro index S \
-    "<save-message>+bartlomiej.bania/[Gmail].Spam<enter>" \
+    "<save-message>+/[Google Mail].Spam<enter>" \
     "mark message as spam"
 
 # Hide / Unhide sidebar -----------------------------
