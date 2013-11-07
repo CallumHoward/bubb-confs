@@ -7,3 +7,4 @@ auto_view text/html
 auto_view application/x-pgp-message
 auto_view image/*
 auto_view application/pdf
+auto_view application/octet-stream
