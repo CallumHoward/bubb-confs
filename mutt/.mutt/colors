@@ -1,26 +1,30 @@
-  color normal    white black
-  color attachment brightyellow black
-  color hdrdefault cyan black
-  color indicator black cyan
-  color markers   brightred black
-  color signature cyan black
-  color status    brightgreen blue
-  color tilde blue black
-  color tree  red black
+  color normal          white           black
+  color attachment      brightyellow    black
+  color hdrdefault      cyan            black
+  color indicator       black           cyan
+  color markers         brightred       black
+  color signature       cyan            black
+  color status          brightgreen     blue
+  color tilde           blue            black
+  color tree            red             black
 
-  color index green default ~p # i am to/cc
-  color index cyan default ~P # from me
-  color index yellow default ~N # new
-  color index yellow default ~O # new
-  color index magenta default ~F # flagged
-  color index blue default ~T # tagged
-  color index red default ~D # deleted
+  color index   green               default     ~p      # i am to/cc
+  color index   cyan                default     ~P      # from me
+  color index   brightyellow        default     ~N      # new
+  color index   brightyellow        default     ~O      # old
+  color index   magenta             default     ~F      # flagged
+  color index   blue                default     ~T      # tagged
+  color index   red                 default     ~D      # deleted
+  color index   blue                default     ~Q      # replied
+  color index   magenta             default     ~k      # GPG
+  color index   black               cyan        ~v      # collapsed thread
+  color index   brightgreen         default     '~f someone@mail.mail' # Separate colours for certain recipients 
 
-  color header    brightgreen black ^From:
-  color header    brightcyan black ^To:
-  color header    brightcyan black ^Reply-To:
-  color header    brightcyan black ^Cc:
-  color header    brightblue black ^Subject:
+  color header    brightgreen   black ^From:
+  color header    brightcyan    black ^To:
+  color header    brightcyan    black ^Reply-To:
+  color header    brightcyan    black ^Cc:
+  color header    brightblue    black ^Subject:
 
 # quote blocks
   color quoted     magenta       default
@@ -52,5 +56,4 @@ mono indicator reverse
 mono error     bold
 
 # color of folders with new mail
-color sidebar_new yellow default
-
+color sidebar_new brightyellow default
