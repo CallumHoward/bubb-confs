@@ -1,0 +1,60 @@
+#!/bin/sh
+# A simple firewall script
+
+WHITELIST=/usr/local/etc/whitelist.txt
+BLACKLIST=/usr/local/etc/blacklist.txt
+ALLOWED="22 21 80"
+
+# Delete all existing rules
+iptables -F
+iptables -X
+
+# Accept addresses from ($WHITELIST):
+for x in `grep -v ^# $WHITELIST | awk '{print $1}'`; do echo "allowing $x..."
+iptables -A INPUT -t filter -s $x -j ACCEPT
+done
+
+# Block addresses from ($BLACKLIST):
+for x in `grep -v ^# $BLACKLIST | awk '{print $1}'`; do echo "blocking $x..."
+iptables -A INPUT -t filter -s $x -j DROP
+done
+
+# Now the allowed ports:
+for port in $ALLOWED; do echo "accepting port $port..."
+iptables -A INPUT -t filter -p tcp --dport $port -j ACCEPT
+done
+
+# fail2ban restart:
+echo "Restarting fail2ban..."
+sudo service fail2ban restart
+
+# Limit the incoming icmp ping request:
+echo "limiting icmp ping requests..."
+iptables -A INPUT -p icmp -m limit --limit 1/s --limit-burst 1 -j ACCEPT
+iptables -A INPUT -p icmp -m limit --limit 1/s --limit-burst 1 -j LOG --log-prefix PING-DROP:
+iptables -A INPUT -p icmp -m state --state ESTABLISHED,RELATED -j ACCEPT
+iptables -A OUTPUT -p icmp -m state --state ESTABLISHED,RELATED -j ACCEPT
+
+# Allow loop:
+echo "allowing loop..."
+iptables -I INPUT -i lo -j ACCEPT
+iptables -I FORWARD -o lo -j ACCEPT
+
+# Accept related/established connections:
+echo "allowing related connections..."
+iptables -I INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+iptables -A OUTPUT -m state --state RELATED,ESTABLISHED,NEW -j ACCEPT
+
+# DROP everything and Log it
+echo "creating logging rules"
+iptables -N LOGGING
+iptables -A INPUT -j LOGGING
+iptables -A LOGGING -m limit --limit 2/min -j LOG --log-prefix "IPTables-Dropped: " --log-level 7
+iptables -A LOGGING -j DROP
+
+# save tables:
+echo "saving rules to files..."
+sudo bash -c 'iptables-save > /etc/iptables.rules'
+sudo bash -c 'iptables-save > /etc/network/iptables'
+
+echo "done!"
