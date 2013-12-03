@@ -3,8 +3,9 @@ hardstatus string '%{= kG}[ %{G}%H %{g}][%= %{=kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)
 
 screen -t shell1 1
 screen -t shell2 2
+screen -t IRC 8 irssi
+screen -t twitter 9 turses
 screen -t mail 0 mutt
-screen -t twitter 9 twitter
 
 vbell off
 bell_msg '^GBell in window %n'
