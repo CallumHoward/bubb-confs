@@ -1,4 +1,4 @@
-RaspberryP-e-s
-==============
+Config files
+============
 
-various scripts from my Pi(e)s and Linuxes
+various scripts and configuration files from my Raspberry Pi and Linux machines.
