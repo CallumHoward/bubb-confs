@@ -1,0 +1,30 @@
+#!/bin/bash
+recipient_email="bartlomiej.bania@gmail.com"
+recipient_gpg_pub_key="F9FA286E"
+sender_gpg_pub_key="AD3A8B4C"
+
+#echo "$(date +%F:::%T) Encrypted Logwatch run beginning"
+
+#Generate random filename for run
+file="$(mktemp)"
+
+#Check if removed-but-not-purged
+test -x /usr/share/logwatch/scripts/logwatch.pl || exit 0
+
+#Note: It's possible to force the recipient in above command
+/usr/sbin/logwatch --detail high > $file
+
+#Check file exists
+test -s $file || exit 1
+
+#encrypt file contents so sender and recipient can decrypt
+gpg --recipient $sender_gpg_pub_key --recipient $recipient_gpg_pub_key --armor --encrypt $file
+
+#mail encrypted log to me
+mail $recipient_email -s "Encrypted $HOSTNAME logwatch for $(date +%d-%b-%Y)" < "$file".asc
+
+#clean-up
+rm $file && rm $file.asc
+
+#Echo end of run
+#echo "$(date +%F:::%T) Encrypted Logwatch run successful. Exiting"
