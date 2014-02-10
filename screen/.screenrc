@@ -1,11 +1,28 @@
+defutf8 on
+defencoding utf8
+attrcolor b ".I"                            # Allow bold colors
+term screen-256color                        # Enable 256 color term
+altscreen on                                # Enable support for the "alternate screen" capability in all windows
+vbell off                                   # No annoying audible bell, please
+bell "bell     in %n (%t) [%w:%s]~"
+bell_msg '^GBell in window %n'              # But a visible one, please
+
+defscrollback 30000
+autodetach on                               # Detach on hangup
+startup_message off                         # Turn off start message
+msgwait 1                                   # Set messages timeout to one second
+bind f eval "hardstatus ignore"             # Hide hardstatus: ctrl-a f
+bind F eval "hardstatus alwayslastline"     # Show hardstatus: ctrl-a F
+
 hardstatus alwayslastline
 hardstatus string '%{= kG}[ %{G}%H %{g}][%= %{=kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}][%{B}%Y-%m-%d %{W}%c%{g}]'
 
-screen -t shell1 1
-screen -t shell2 2
-screen -t IRC 8 irssi
-screen -t twitter 9 turses
-screen -t mail 0 mutt
+defbce "on"                                 # Erase background with current bg color
+termcapinfo xterm|xterms|xs|rxvt ti@:te@    # Enables use of shift-PgUp and shift-PgDn
 
-vbell off
-bell_msg '^GBell in window %n'
+# screensaver
+blankerprg cmatrix -ab -u2 -C red
+idle 600 blanker
+
+screen -t shell1 1
+screen -t Mail 0 mutt
