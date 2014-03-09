@@ -1,5 +1,15 @@
 [user]
-    name = 
-    email = 
+	name = 
+	email = 
 [credential]
     helper = cache --timeout=7200
+[color]
+    ui = true
+[diff]
+    tool = vimdiff
+[difftool]
+    prompt = false
+[alias]
+    alias = !git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1\\t=> \\2/' | sort
+    this = !git init && git add . && git commit -m \"initial commit\"
+    r  = !git ls-files -z --deleted | xargs -0 git rm
