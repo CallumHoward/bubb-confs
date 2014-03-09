@@ -12,13 +12,20 @@ HISTCONTROL=ignoreboth
 # append to the history file, don't overwrite it
 shopt -s histappend
 
+### Bash completion
+[ -f /etc/bash_completion ] && . /etc/bash_completion
+
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 HISTSIZE=10000
-HISTFILESIZE=20000
+export HISTFILESIZE=100000
+export HISTTIMEFORMAT="%Y/%m/%d %H:%M:%S: "
+[ -z "$TMPDIR" ] && TMPDIR=/tmp
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
+
+export EDITOR=vim
 
 # Test connection type:
 if [ -n "${SSH_CONNECTION}" ]; then
@@ -67,12 +74,25 @@ if [ -n "$force_color_prompt" ]; then
     fi
 fi
 
-if [ "$color_prompt" = yes ]; then
-    PS1="\[\033[01;32m\]\u@\h\[\033[00m\] \[\033[1;31m\]\$(date +%H:%M)\[\033[00m\] \[\033[01;34m\]\W\$(__git_ps1 ' (%s)') \$ \[\033[00m\]"
-#    PS1="\[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\] \[\033[1;31m\]\@\[\033[00m\] \[\033[01;34m\]\w \$\[\033[00m\]"
+### git-prompt
+[ -e ~/.git-prompt.sh ] && source ~/.git-prompt.sh
+
+#if [ "$color_prompt" = yes ]; then
+#    PS1="\[\033[01;32m\]\u@\h\[\033[00m\] \[\033[1;31m\]\$(date +%H:%M)\[\033[00m\] \[\033[01;34m\]\W\$(__git_ps1 ' (%s)') \$ \[\033[00m\]"
+#    PS1="\[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\] \[\033[01;34m\]\w \$\[\033[00m\]"
+#else
+#    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+#fi
+
+if [ "$PLATFORM" = Linux ]; then
+PS1="\[\e[1;38m\]\u\[\e[1;34m\]@\[\e[1;31m\]\h\[\e[1;30m\]:"
+  PS1="$PS1\[\e[0;38m\]\w\[\e[1;35m\]> \[\e[0m\]"
 else
-    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+PROMPT_COMMAND='printf "\[\e[38;5;59m\]%$(($COLUMNS - 4))s\r" "$(__git_ps1)"' # ($(date +%m/%d\ %H:%M:%S))"'
+  PS1="\[\e[38;5;110m\]\u\[\e[38;5;108m\]@\[\e[38;5;186m\]\h\[\e[38;5;95m\]:"
+  PS1="$PS1\[\e[38;5;252m\]\w\[\e[38;5;168m\]> \[\e[0m\]"
 fi
+
 unset color_prompt force_color_prompt
 
 # If this is an xterm set the title to user@host:dir
@@ -96,6 +116,8 @@ if [ -x /usr/bin/dircolors ]; then
     alias egrep='egrep --color=auto'
 fi
 
+export PATH=$PATH:$HOME/Dev/rpi/tools/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian/bin
+
 # some more ls aliases
 alias ll='ls -alF'
 alias la='ls -A'
@@ -116,24 +138,26 @@ alias psc='ps xawf -eo pid,user,cgroup,args'
 alias twitter='turses'
 
 # SSH aliases
-alias pb='ssh pi@pibang'
-alias fp='ssh pi@funpi'
-alias sp='ssh pi@securitypi'
+alias pb='ssh -p 300 pi@pibang'
+alias fp='ssh -p 333 'pi@funpi''
+alias sp='ssh -p 303 pi@securitypi'
 
 # FTP aliases
-alias ftpp='ftp pibang'
-alias ftpf='ftp funpi'
-alias ftps='ftp securitypi'
+alias ftpp='ftp pibang 202'
+alias ftpf='ftp funpi 201'
+alias ftps='ftp securitypi 203'
+
+#alias vncfp='xtightvncviewer 192.168.1.20:1'
 
 # Serial aliases
 alias compi='minicom --color=on -D /dev/ttyUSB0 -b 115200 -o'
 alias scrpi='sudo screen -A /dev/ttyUSB0 115200'
 
 # Disk mount aliases
-alias PiBang='sudo mount -t cifs //pibang/BangDisk /home/bubbl/mnt/PiBang -o username=pi'
-alias SecDisk='sudo mount -t cifs //securitypi/MediA /home/bubbl/mnt/PiSecurity -o username=pi'
-alias Ubuntu1='sudo mount -t cifs //ubuntu/bubbl ~/mnt/bubbl1 -o username=bubbl'
-alias Ubuntu2='sudo mount -t cifs //ubuntu/bubbl2 ~/mnt/bubbl2 -o username=bubbl'
+alias PiBang='sudo mount -t cifs //192.168.1.20/BangDisk /home/bubbl/mnt/PiBang -o username=pi'
+alias SecDisk='sudo mount -t cifs //192.168.1.22/MediA /home/bubbl/mnt/PiSecurity -o username=pi'
+alias Ubuntu1='sudo mount -t cifs //192.168.1.5/bubbl ~/mnt/bubbl1 -o username=bubbl'
+alias Ubuntu2='sudo mount -t cifs //192.168.1.5/bubbl2 ~/mnt/bubbl2 -o username=bubbl'
 
 # Fast(er) shutdown/restart
 alias haltme='sudo shutdown -h now'
@@ -144,7 +168,7 @@ alias path='echo -e ${PATH//:/\\n}'
 alias libpath='echo -e ${LD_LIBRARY_PATH//:/\\n}'
 
 alias du='du -kh'    # Makes a more readable output.
-alias df='df -kTh'
+#alias df='df -kTh'
 
 alias m='less'
 alias p='pstree -p'
@@ -180,6 +204,8 @@ fi
 if [ -f ~/.git-completion.bash ]; then
 . ~/.git-completion.bash
 fi
+source ~/.git-completion.bash
+source ~/.git-prompt.sh
 
 genpasswd() {
 	local l=$1
@@ -304,3 +330,33 @@ PS2="\[\033[01;34;01m\]\333\262\261\260\[\033[00;34;40m\]\260\261\262\333\[\033[
 function cline_norm {
     PS1="\[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\] \[\033[1;31m\]\@\[\033[00m\] \[\033[01;34m\]\w \$\[\033[00m\]"
 }
+PATH="$HOME/bin:$PATH"
+#alias android-connect="mtpfs -o allow_other /media/nexus"
+#alias android-disconnect="fusermount -u /media/nexus"
+
+# create the pane with irssi's nicklist
+function irssi_nickpane() {
+    tmux renamew irssi                                              # name the window
+    tmux -q setw main-pane-width $(( $(tput cols) - 21))            # set the main pane width to the total width-20
+    tmux splitw -v "cat ~/.irssi/nicklistfifo"                      # create the window and begin reading the fifo
+    tmux -q selectl main-vertical                                   # assign the layout
+    tmux selectw -t irssi                                           # select window 'irssi'
+    tmux selectp -t 0                                               # select pane 0
+}
+
+# irssi wrapper
+function irssi() {
+    irssi_nickpane
+    $(which irssi)                                                  # launch irssi
+}
+
+# repair running irssi's nicklist pane
+function irssi_repair() {
+    tmux selectw -t irssi
+    tmux selectp -t 0
+    tmux killp -a                                                   # kill all panes
+    irssi_nickpane
+}
+# Run twolfson/sexy-bash-prompt
+. ~/.bash_prompt
+. ~/.bash_prompt
