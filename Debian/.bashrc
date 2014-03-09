@@ -116,71 +116,6 @@ if [ -x /usr/bin/dircolors ]; then
     alias egrep='egrep --color=auto'
 fi
 
-export PATH=$PATH:$HOME/Dev/rpi/tools/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian/bin
-
-# some more ls aliases
-alias ll='ls -alF'
-alias la='ls -A'
-alias l='ls -CF'
-alias ..='cd ..'
-alias ...='cd ../..'
-alias ....='cd ../../..'
-alias PAGER='less -r'
-alias h='history 10'
-alias j='jobs -l'
-alias m='less'
-alias md='mkdir'
-alias p='pstree -p'
-alias ping='ping -vc1'
-alias updt='sudo apt-get update && sudo apt-get upgrade'
-alias psc='ps xawf -eo pid,user,cgroup,args'
-
-alias twitter='turses'
-
-# SSH aliases
-alias pb='ssh -p 300 pi@pibang'
-alias fp='ssh -p 333 'pi@funpi''
-alias sp='ssh -p 303 pi@securitypi'
-
-# FTP aliases
-alias ftpp='ftp pibang 202'
-alias ftpf='ftp funpi 201'
-alias ftps='ftp securitypi 203'
-
-#alias vncfp='xtightvncviewer 192.168.1.20:1'
-
-# Serial aliases
-alias compi='minicom --color=on -D /dev/ttyUSB0 -b 115200 -o'
-alias scrpi='sudo screen -A /dev/ttyUSB0 115200'
-
-# Disk mount aliases
-alias PiBang='sudo mount -t cifs //192.168.1.20/BangDisk /home/bubbl/mnt/PiBang -o username=pi'
-alias SecDisk='sudo mount -t cifs //192.168.1.22/MediA /home/bubbl/mnt/PiSecurity -o username=pi'
-alias Ubuntu1='sudo mount -t cifs //192.168.1.5/bubbl ~/mnt/bubbl1 -o username=bubbl'
-alias Ubuntu2='sudo mount -t cifs //192.168.1.5/bubbl2 ~/mnt/bubbl2 -o username=bubbl'
-
-# Fast(er) shutdown/restart
-alias haltme='sudo shutdown -h now'
-alias restart='sudo shutdown -r now'
-
-# Pretty-print of some PATH variables:
-alias path='echo -e ${PATH//:/\\n}'
-alias libpath='echo -e ${LD_LIBRARY_PATH//:/\\n}'
-
-alias du='du -kh'    # Makes a more readable output.
-#alias df='df -kTh'
-
-alias m='less'
-alias p='pstree -p'
-
-alias unaliasall='unalias -a'
-
-alias h='history'
-alias j='jobs -l'
-alias ..='cd ..'
-alias ...='cd ../..'
-alias ....='cd ../../..'
-
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
@@ -193,6 +128,8 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
+
+source ~/.aliases
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
@@ -317,46 +254,7 @@ function ii()   # Get current host related info.
     echo
 }
 
-function cline_red {
-PS1="\[\033[31;41;1m\]\333\262\261\260\[\033[37;41;1m\]\u@\h\[\033[0m\033[31;40m\]\333\262\261\260\[\033[37;40;1m\] \d \$(date +%I:%M%P)\n\[\033[31;40;1m\]\w/\[\033[0m\] "
-PS2="\[\033[31;40m\]\333\262\261\260\[\033[0m\]>"
-}
-
-function cline_combo {
-PS1="\[\033[01;34;01m\]\333\262\261\260\[\033[01;37;44m\]\u@\h\[\033[00;34;40m\]\260\261\262\333\[\033[00;34;40m\]\333\262\261\260\[\033[01;37;40m\] \d \$(date +%I:%M%P)\n\[\033[01;33;40m\]$PWD>\[\033[00m\] "
-PS2="\[\033[01;34;01m\]\333\262\261\260\[\033[00;34;40m\]\260\261\262\333\[\033[00;34;40m\]\333\262\261\260\[\033[01;01;34m\]>\[\033[00m\] "
-}
-
-function cline_norm {
-    PS1="\[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\] \[\033[1;31m\]\@\[\033[00m\] \[\033[01;34m\]\w \$\[\033[00m\]"
-}
 PATH="$HOME/bin:$PATH"
-#alias android-connect="mtpfs -o allow_other /media/nexus"
-#alias android-disconnect="fusermount -u /media/nexus"
 
-# create the pane with irssi's nicklist
-function irssi_nickpane() {
-    tmux renamew irssi                                              # name the window
-    tmux -q setw main-pane-width $(( $(tput cols) - 21))            # set the main pane width to the total width-20
-    tmux splitw -v "cat ~/.irssi/nicklistfifo"                      # create the window and begin reading the fifo
-    tmux -q selectl main-vertical                                   # assign the layout
-    tmux selectw -t irssi                                           # select window 'irssi'
-    tmux selectp -t 0                                               # select pane 0
-}
-
-# irssi wrapper
-function irssi() {
-    irssi_nickpane
-    $(which irssi)                                                  # launch irssi
-}
-
-# repair running irssi's nicklist pane
-function irssi_repair() {
-    tmux selectw -t irssi
-    tmux selectp -t 0
-    tmux killp -a                                                   # kill all panes
-    irssi_nickpane
-}
 # Run twolfson/sexy-bash-prompt
-. ~/.bash_prompt
 . ~/.bash_prompt
