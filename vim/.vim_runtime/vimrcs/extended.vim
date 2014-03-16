@@ -36,8 +36,8 @@ if has("gui_running")
     set background=dark
     colorscheme peaksea
 else
-    colorscheme desert
-    let g:colors_name="desert"
+    colorscheme peaksea
+    let g:colors_name="peaksea"
 endif
 
 
@@ -84,7 +84,6 @@ cnoremap <C-N> <Down>
 map ½ $
 cmap ½ $
 imap ½ $
-
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Parenthesis/bracket
