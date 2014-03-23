@@ -13,7 +13,7 @@ HISTCONTROL=ignoreboth
 shopt -s histappend
 
 ### Bash completion
-[ -f /etc/bash_completion ] && . /etc/bash_completion
+#[ -f /etc/bash_completion ] && . /etc/bash_completion
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 HISTSIZE=10000
@@ -38,9 +38,9 @@ fi
 
 # Test user type:
 if [[ ${USER} == "root" ]]; then
-    SU=${Red}           # User is root.
+    SU=${BRed}           # User is root.
 elif [[ ${USER} != $(logname) ]]; then
-    SU=${BRed}          # User is not login user.
+    SU=${BYellow}          # User is not login user.
 else
     SU=${BCyan}         # User is normal (well ... most of us are).
 fi
@@ -77,18 +77,31 @@ fi
 ### git-prompt
 [ -e ~/.git-prompt.sh ] && source ~/.git-prompt.sh
 
-#if [ "$color_prompt" = yes ]; then
-#    PS1="\[\033[01;32m\]\u@\h\[\033[00m\] \[\033[1;31m\]\$(date +%H:%M)\[\033[00m\] \[\033[01;34m\]\W\$(__git_ps1 ' (%s)') \$ \[\033[00m\]"
-#    PS1="\[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\] \[\033[01;34m\]\w \$\[\033[00m\]"
-#else
-#    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+# Alias definitions.
+# You may want to put all your additions into a separate file like
+# ~/.bash_aliases, instead of adding them here directly.
+# See /usr/share/doc/bash-doc/examples in the bash-doc package.
+
+if [ -f ~/.aliases ]; then
+    . ~/.aliases
+fi
+
+# enable programmable completion features (you don't need to enable
+# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
+# sources /etc/bash.bashrc).
+#if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
+#    . /etc/bash_completion
 #fi
+
+if [ -f ~/.git-completion.bash ]; then
+     . ~/.git-completion.bash
+fi
 
 if [ "$PLATFORM" = Linux ]; then
 PS1="\[\e[1;38m\]\u\[\e[1;34m\]@\[\e[1;31m\]\h\[\e[1;30m\]:"
   PS1="$PS1\[\e[0;38m\]\w\[\e[1;35m\]> \[\e[0m\]"
 else
-PROMPT_COMMAND='printf "\[\e[38;5;59m\]%$(($COLUMNS - 4))s\r" "$(__git_ps1)"' # ($(date +%m/%d\ %H:%M:%S))"'
+PROMPT_COMMAND='printf "\[\e[38;5;59m\]%$(($COLUMNS - 4))s\r" "$(__git_ps1)"'
   PS1="\[\e[38;5;110m\]\u\[\e[38;5;108m\]@\[\e[38;5;186m\]\h\[\e[38;5;95m\]:"
   PS1="$PS1\[\e[38;5;252m\]\w\[\e[38;5;168m\]> \[\e[0m\]"
 fi
@@ -119,30 +132,6 @@ fi
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-
-# Alias definitions.
-# You may want to put all your additions into a separate file like
-# ~/.bash_aliases, instead of adding them here directly.
-# See /usr/share/doc/bash-doc/examples in the bash-doc package.
-
-if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
-fi
-
-source ~/.aliases
-
-# enable programmable completion features (you don't need to enable
-# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
-# sources /etc/bash.bashrc).
-if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
-    . /etc/bash_completion
-fi
-
-if [ -f ~/.git-completion.bash ]; then
-. ~/.git-completion.bash
-fi
-source ~/.git-completion.bash
-source ~/.git-prompt.sh
 
 genpasswd() {
 	local l=$1
@@ -255,6 +244,9 @@ function ii()   # Get current host related info.
 }
 
 PATH="$HOME/bin:$PATH"
+
+eval "`dircolors -b ~/.dircolorsrc`"
+export LS_OPTIONS='--color=auto'
 
 # Run twolfson/sexy-bash-prompt
 . ~/.bash_prompt

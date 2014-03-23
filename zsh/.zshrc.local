@@ -123,6 +123,8 @@ export PATH=$PATH:~/.cabal/bin
 ## Allow comments even in interactive shells
 #setopt interactivecomments
 
+eval "`dircolors -b ~/.dircolorsrc`"
+export LS_OPTIONS='--color=auto'
 
 ## compsys related snippets ##
 
@@ -173,26 +175,6 @@ export PATH=$PATH:~/.cabal/bin
 #alias insecssh='ssh -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null" -o "PreferredAuthentications=keyboard-interactive"'
 
 
-## global aliases (for those who like them) ##
-
-#alias -g '...'='../..'
-#alias -g '....'='../../..'
-#alias -g BG='& exit'
-#alias -g C='|wc -l'
-#alias -g G='|grep'
-#alias -g H='|head'
-#alias -g Hl=' --help |& less -r'
-#alias -g K='|keep'
-#alias -g L='|less'
-#alias -g LL='|& less -r'
-#alias -g M='|most'
-#alias -g N='&>/dev/null'
-#alias -g R='| tr A-z N-za-m'
-#alias -g SL='| sort | less'
-#alias -g S='| sort'
-#alias -g T='|tail'
-#alias -g V='| vim -'
-
 ## instead of global aliase it might be better to use grmls $abk assoc array, whose contents are expanded after pressing ,.
 #$abk[SnL]="| sort -n | less"
 
@@ -208,7 +190,7 @@ alias top10='print -l ${(o)history%% *} | uniq -c | sort -nr | head -n 10'
 ## miscellaneous code ##
 
 ## Use a default width of 80 for manpages for more convenient reading
-#export MANWIDTH=${MANWIDTH:-80}
+export MANWIDTH=${MANWIDTH:-80}
 
 ## Set a search path for the cd builtin
 #cdpath=(.. ~)
@@ -281,11 +263,11 @@ alias top10='print -l ${(o)history%% *} | uniq -c | sort -nr | head -n 10'
 #}
 
 ## Memory overview
-#memusage() {
-#    ps aux | awk '{if (NR > 1) print $5;
-#                   if (NR > 2) print "+"}
-#                   END { print "p" }' | dc
-#}
+memusage() {
+    ps aux | awk '{if (NR > 1) print $5;
+                   if (NR > 2) print "+"}
+                   END { print "p" }' | dc
+}
 
 ## print hex value of a number
 hex() {

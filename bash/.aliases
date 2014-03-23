@@ -31,6 +31,18 @@ alias psc='ps xawf -eo pid,user,cgroup,args'
 alias cp='rsync -aP'
 alias twitter='turses'
 
+# SSH aliases
+alias hermes='ssh -p 303 pi@hermes'
+alias poseidon='ssh -p 56789 bubblocean@poseidon'
+alias zeus='ssh -p 52426 bubbl@zeus'
+alias seba='ssh -p 55122 szebasztian@86.4.68.128'
+
+# (s)FTP aliases
+alias ftpzeus='sftp -P 52426 bubbl@zeus'
+alias ftphermes='sftp -P 303 pi@hermes'
+alias ftposeidon='sftp -P 56789 bubblocean@poseidon'
+alias ftpseba='sftp -P 55122 szebasztian@86.4.68.128'
+
 # Serial aliases
 alias compi='minicom --color=on -D /dev/ttyUSB0 -b 115200 -o'
 alias scrpi='sudo screen -A /dev/ttyUSB0 115200'
