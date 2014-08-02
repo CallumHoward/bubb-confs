@@ -1,0 +1,23 @@
+<VirtualHost *:80>
+	ServerAdmin webmaster@localhost
+    ServerName about.bartbania.com
+DocumentRoot /www/
+	<Directory />
+		Options FollowSymLinks
+		AllowOverride None
+	</Directory>
+<Directory /www/>
+		Options -Indexes FollowSymLinks MultiViews
+        AllowOverride All
+        Order Allow,Deny
+        Allow from all
+</Directory>
+
+	ErrorLog ${APACHE_LOG_DIR}/error-about.log
+
+	# Possible values include: debug, info, notice, warn, error, crit,
+	# alert, emerg.
+	LogLevel warn
+
+	CustomLog ${APACHE_LOG_DIR}/access-about.log combined
+</VirtualHost>
